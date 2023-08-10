@@ -23,13 +23,12 @@ export const LoginForm = () => {
         textAlign: 'center',
         fontWeight: 'bold',
       }}>
-
       <Paper 
         elevation={24} 
         sx={{
           padding: 8,
-        }}>
-
+        }}
+      >
         <form onSubmit={handleSubmit}>
           <Typography variant="h6" component="h1">
               Login
