@@ -8,8 +8,14 @@ export const TaskData = () => {
   const [edit, setEdit] = useState(false);
   const [taskName, setTaskName] = useState('');
   const [taskDescription, setTaskDescription] = useState('');
-  const [taskStatus, setTaskStatus] = useState('Cadastrada');
+  const [taskStatus, setTaskStatus] = useState("Cadastrada");
   const [taskDeadline, setTaskDeadline] = useState('');
+
+  const validTransitions = {
+    "Cadastrada": ["Em Andamento"],
+    "Em Andamento": ["Concluída", "Cadastrada"],
+    "Concluída": ["Cadastrada"],
+  };
 
   const handleEditButtonClick = () => {
     setEdit(true);
@@ -24,18 +30,14 @@ export const TaskData = () => {
   }
 
   const handleStatusTransitions = (newStatus) => {
-    const validTransitions = {
-      "Cadastrada": ["Em Andamento"],
-      "Em Andamento": ["Concluída", "Cadastrada"],
-      "Concluída": ["Cadastrada"],
-    };
-
     if (validTransitions[taskStatus].includes(newStatus)) {
       setTaskStatus(newStatus);
     } else {
       console.log("Invalid status transition");
     }
   };
+
+  const availableStatusOptions = validTransitions[taskStatus];
 
   return (
     <>
@@ -86,60 +88,26 @@ export const TaskData = () => {
                 disabled={!edit}
                 onChange={e => setTaskDeadline(e.target.value)}
               />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="deadline"
-                label="Deadline"
-                name="deadline"
-                disabled={!edit}
-                onChange={e => setTaskDeadline(e.target.value)}
-              />
               <DatePicker
-                sx={{width: '100%', marginBottom:2, marginTop:2}}
+                fullWidth
+                sx={{width: '100%', marginBottom: 2, marginTop: 2}}
                 disabled={!edit}
                 label='Deadline'
                 value={taskDeadline}
                 onChange={(deadline) => setTaskDeadline(deadline)}
               />
-              <>
-                {taskStatus === "Cadastrada" && (
-                  <Button
-                    variant='contained'
-                    onClick={() => handleStatusTransitions("Em Andamento")}
-                  >
-                    Iniciar Tarefa
-                  </Button>
-                )}
-                {taskStatus === "Em Andamento" && (
-                  <>
-                    <Button
-                      variant='contained'
-                      onClick={() => handleStatusTransitions("Concluída")}
-                    >
-                      Concluir Tarefa
-                    </Button>
-                    <Button
-                      sx={{mx: 2}}
-                      variant='contained'
-                      onClick={() => handleStatusTransitions("Cadastrada")}
-                    >
-                      Voltar para Cadastrada
-                    </Button>
-                  </>
-                )}
-                {taskStatus === "Concluída" && (
-                  <>
-                    <Button
-                      variant='contained'
-                      onClick={() => handleStatusTransitions("Cadastrada")}
-                    >
-                      Voltar para Cadastrada
-                    </Button>
-                  </>
-                )}
-              </>
+              <Select
+                fullWidth
+                value={taskStatus}
+                onChange={(e) => handleStatusTransitions(e.target.value)}
+                disabled={!edit}
+              >
+                {availableStatusOptions.map((status) => (
+                  <MenuItem key={status} value={status}>
+                    {status}
+                  </MenuItem>
+                ))}
+              </Select>
               <Box sx={{marginTop: 2}}>
                 <Button variant='contained' onClick={handleCancelButtonClick}>Cancel</Button>
                 <Button sx={{marginX: 4}} variant='contained' onClick={handleSaveButtonClick}>Save</Button>
