@@ -1,42 +1,55 @@
 import React from "react";
-import { 
-  Box, 
+import {  
   List, 
   ListItem, 
   ListItemText, 
   ListItemIcon, 
   ListItemAvatar, 
   Avatar,
-  Divider } from "@mui/material";
+  Divider,
+  Grid, 
+  Button,
+  Link} from "@mui/material";
 import TaskIcon from '@mui/icons-material/Task';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
 
-export const MultList = () => {
+export const MultList = ({task}) => {
   return (
-    <Box sx={{
-      // display: 'flex',
+    <Grid 
+    container
+    spacing={2}
+    sx={{
+      display: 'flex',
       justifyContent: 'center',
       alignItems: 'normal',
       minHeight: '100vh',
-      bgcolor: '#efefef',
     }}>
-      <List disablePadding>
-        <ListItem>
-          <ListItemIcon>
-            <ListItemAvatar>
-              <Avatar>
-                <TaskIcon />
-              </Avatar>
-            </ListItemAvatar>
-          </ListItemIcon>
-          <ListItemText primary='Item 1' secondary='Secondary text' />
-          <EditNoteIcon edge='end' />
-          <DeleteIcon edge='end' />        
-        </ListItem>
-        <Divider variant="middle"/>
-      </List>
-    </Box>
+      <Grid item xs={8}>
+        <List disablePadding>
+          <ListItem>
+            <ListItemIcon>
+              <ListItemAvatar>
+                <Avatar>
+                  <TaskIcon />
+                </Avatar>
+              </ListItemAvatar>
+            </ListItemIcon>
+            <ListItemText primary='Item 1' secondary='Secondary text' />
+            <Link href='./TaskData'>
+              <Button variant='outlined' aria-label="edit" edge='end' sx={{ marginX:2, borderRadius: 8 }}>
+                <EditNoteIcon />
+              </Button>
+            </Link>
+            <Button variant='outlined' aria-label="delete" edge='end' sx={{ marginX:2, borderRadius: 8 }}>
+              <DeleteIcon  /> 
+            </Button>
+                   
+          </ListItem>
+          <Divider variant="middle"/>
+        </List>
+      </Grid>
+    </Grid>
   )
 }

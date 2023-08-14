@@ -8,8 +8,9 @@ export const Navbar = () => {
   const logout = () => Meteor.logout();
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed" sx={{ mb: 10 }}>
       <Toolbar>
+        <AppDrawer />
         <IconButton 
           size="large" 
           edge='start' 
@@ -24,7 +25,6 @@ export const Navbar = () => {
           sx={{ flexGrow: 1}}>
           To do App
         </Typography>
-        <AppDrawer />
         <Button color="inherit" variant="outlined" onClick={() => logout()}>Logout</Button>
       </Toolbar>
     </AppBar>
