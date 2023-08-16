@@ -9,13 +9,13 @@ export const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    const logout = () => Meteor.logout();
-
+    Meteor.logout();
+    
     navigate('/');
   }
 
   return (
-    <AppBar position="fixed" sx={{ mb: 10 }}>
+    <AppBar position="static" sx={{ mb: 4 }}>
       <Toolbar>
         <AppDrawer />
         <IconButton 

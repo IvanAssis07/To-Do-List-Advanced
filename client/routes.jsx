@@ -16,7 +16,7 @@ Meteor.startup(() => {
         <Routes>
           <Route path='/' element={<App />} />
           <Route path='/TaskData' element={<TaskData />} />
-          <Route path='/tasks' />
+          <Route path='/Tasks' />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>

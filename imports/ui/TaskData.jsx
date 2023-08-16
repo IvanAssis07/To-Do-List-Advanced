@@ -45,7 +45,7 @@ export const TaskData = () => {
       <Stack direction='column' 
         sx={{
           display: 'flex',
-          justifyContent: 'center',
+          marginTop: '10%',
           minHeight: '100vh',
           textAlign: 'center',
         }}
