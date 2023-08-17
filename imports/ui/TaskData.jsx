@@ -5,10 +5,9 @@ import {
   Box,
   Button,
   Typography,
-  MenuItem,
-  Paper,
+  MenuItem
 } from '@mui/material';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Navbar } from './NavBar';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -30,7 +29,7 @@ export const TaskData = () => {
   const [taskStatus, setTaskStatus] = useState('Cadastrada');
   const [taskDeadline, setTaskDeadline] = useState(adapter.date());
 
-  const originalStatus = 'Cadastrada';
+  const originalStatus = taskStatus;
   const validTransitions = {
     'Cadastrada': ['Cadastrada', 'Em Andamento'],
     'Em Andamento': ['Em Andamento', 'Concluída', 'Cadastrada'],
@@ -122,7 +121,7 @@ export const TaskData = () => {
                 }}
               >
                 {availableStatusOptions.map((status, index) => (
-                  <MenuItem key={index} value={status} disabled={index === 0}>
+                  <MenuItem key={index} value={status} disabled={ index === 0 }>
                     {status}
                   </MenuItem>
                 ))}

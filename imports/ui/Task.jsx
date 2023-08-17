@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom'; 
 import {  
   ListItem, 
   ListItemText, 
@@ -25,22 +26,21 @@ export const Task = ({task, onDeleteClick}) => {
           </ListItemAvatar>
         </ListItemIcon>
         <ListItemText primary={task.name} secondary={task.creator} />
-        {/* <Link to={`/TaskData/${task._id}`}> */}
+        <RouterLink to={`/TaskData/${task.id}`}>
           <Button 
             variant='outlined' 
             aria-label='edit' 
             edge='end' 
-            sx={{ marginX:2, borderRadius: 8 }}
-            onClick = {()=> {console.log(task._id)}}
+            sx={{ borderRadius: 8 }}
             >
             <EditNoteIcon />
           </Button>
-        {/* </Link> */}
+        </RouterLink>
         <Button 
           variant='outlined' 
           aria-label='delete' 
           edge='end' 
-          sx={{ marginX:2, borderRadius: 8 }}
+          sx={{ marginLeft: '3%', borderRadius: 8 }}
           onClick={() => onDeleteClick(task)}
         >
           <DeleteIcon  /> 

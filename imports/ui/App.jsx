@@ -1,49 +1,80 @@
-import React, { useState } from 'react';
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
-import { LoginForm } from './LoginForm';
-import { Task } from './Task';
-import { Navbar } from './NavBar';
-import { List, Button, Stack, Box } from '@mui/material';
-import { TasksCollection } from '../db/TasksCollection';
-import AddIcon from '@mui/icons-material/Add';
+import React from "react";
+import { Meteor } from "meteor/meteor";
+import { useTracker } from "meteor/react-meteor-data";
+import { LoginForm } from "./LoginForm";
+import { Task } from "./Task";
+import { Navbar } from "./NavBar";
+import { List, Button, Stack, Box } from "@mui/material";
+import { TasksCollection } from "../db/TasksCollection";
+import AddIcon from "@mui/icons-material/Add";
+import CircularProgress from "@mui/material/CircularProgress";
+import { CreateTask } from './CreateTask';
 
 export const App = () => {
   const user = useTracker(() => Meteor.user());
 
-  const deleteTask = ({_id}) => {TasksCollection.remove(_id)};
+  const deleteTask = ({ _id }) => {
+    TasksCollection.remove(_id);
+  };
 
-  const tasks = useTracker(() => TasksCollection.find({},
-    {
-    sort: { createdAt: -1 },
-    }).fetch());
+  const { tasks, isLoading } = useTracker(() => {
+    const noTasksAvailable = { tasks: [] };
+
+    if (!Meteor.user()) {
+      return noTasksAvailable;
+    }
+
+    const handler = Meteor.subscribe("tasks");
+
+    if (!handler.ready()) {
+      return { ...noTasksAvailable, isLoading: true };
+    }
+
+    const tasks = TasksCollection.find(
+      {},
+      {
+        sort: { createdAt: -1 },
+      }
+    ).fetch();
+
+    return { tasks };
+  });
 
   return (
     <>
       {user ? (
         <>
           <Navbar />
-          <Stack direction='column' 
+          <Stack
+            direction="column"
             sx={{
-              display: 'flex',
-              minHeight: '100vh',
-              textAlign: 'center',
+              display: "flex",
+              minHeight: "100vh",
+              textAlign: "center",
             }}
           >
             <Box>
-              <Button variant='contained' startIcon={<AddIcon />}>
+              <Button variant="contained" startIcon={<AddIcon />}>
                 Create Task
               </Button>
             </Box>
-            <Box marginX={'20%'} marginTop={2}>
+
+            {isLoading && (
+              <Box sx={{ 
+                display: "flex",
+                marginTop: "10%",
+                justifyContent: "center"
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            )}
+
+            <Box marginX={"20%"} marginTop={2}>
               <List disablePadding>
-                {tasks.map(task => 
-                  <Task 
-                  key={task._id}
-                  task={task}
-                  onDeleteClick={deleteTask}
-                  />
-                  )}
+                {tasks.map((task) => (
+                  <Task key={task._id} task={task} onDeleteClick={deleteTask} />
+                ))}
               </List>
             </Box>
           </Stack>
@@ -52,5 +83,5 @@ export const App = () => {
         <LoginForm />
       )}
     </>
-  )
+  );
 };

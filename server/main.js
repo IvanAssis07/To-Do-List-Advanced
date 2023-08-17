@@ -1,13 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
-import { TasksCollection } from '/imports/db/TasksCollection';
-// import '/imports/api/tasksMethods';
-// import '/imports/api/tasksPublications';
+import { TasksCollection } from '../imports/db/TasksCollection';
+import '../imports/api/tasksMethods';
+import '../imports/api/tasksPublications';
 
 const insertTask = (taskName, user) => {
   TasksCollection.insert({
       name: taskName,
       creator: user.username,
+      userId: user._id,
       createdAt: new Date(),
     })
 };
