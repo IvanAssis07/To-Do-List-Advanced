@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import { Meteor } from 'meteor/meteor';
-import { AppBar, Toolbar, IconButton, Typography, Button } from "@mui/material";
+import { AppBar, Toolbar, IconButton, Typography, Button } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
-import { AppDrawer } from "./Drawer";
-import { useNavigate } from "react-router-dom";
+import { AppDrawer } from './Drawer';
+import { useNavigate } from 'react-router-dom';
 
 export const Navbar = () => {
   const navigate = useNavigate();
@@ -14,25 +14,30 @@ export const Navbar = () => {
     navigate('/');
   }
 
+  const handleLogoClick = () => {
+    navigate('/');
+  }
+
   return (
-    <AppBar position="static" sx={{ mb: 4 }}>
+    <AppBar position='static' sx={{ mb: 4 }}>
       <Toolbar>
         <AppDrawer />
         <IconButton 
-          size="large" 
+          size='large' 
           edge='start' 
-          color="inherit" 
-          aria-label="menu"
+          color='inherit' 
+          aria-label='logo'
+          onClick={() => handleLogoClick()}
         >
           <AddTaskIcon />
         </IconButton>
         <Typography 
-          variant="h6" 
+          variant='h6' 
           component='div'
           sx={{ flexGrow: 1}}>
           To do App
         </Typography>
-        <Button color="inherit" variant="outlined" onClick={handleLogout}>Logout</Button>
+        <Button color='inherit' variant='outlined' onClick={handleLogout}>Logout</Button>
       </Toolbar>
     </AppBar>
   )

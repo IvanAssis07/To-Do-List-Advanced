@@ -15,14 +15,14 @@ export const LoginForm = () => {
   }
 
   return (
-      <Box sx={{
+    <Box sx={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
         textAlign: 'center',
         fontWeight: 'bold',
-      }}>
+    }}>
       <Paper 
         elevation={24} 
         sx={{
@@ -30,32 +30,32 @@ export const LoginForm = () => {
         }}
       >
         <form onSubmit={handleSubmit}>
-          <Typography variant="h6" component="h1">
+          <Typography variant='h6' component='h1'>
               Login
           </Typography>
           <Box>
             <TextField
-              margin="normal"
+              margin='normal'
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="off"
+              id='email'
+              label='Email Address'
+              name='email'
+              autoComplete='off'
               autoFocus
               onChange={e => setUserName(e.target.value)}
             />
           </Box>
           <Box>
             <TextField
-              margin="normal"
+              margin='normal'
               required
               fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="off"
+              name='password'
+              label='Password'
+              type='password'
+              id='password'
+              autoComplete='off'
               onChange={e => setPassword(e.target.value)}
             />
           </Box>
@@ -69,7 +69,7 @@ export const LoginForm = () => {
           >
             Login
           </Button>
-          <Link href="#">
+          <Link href='#'>
             Don't have an account? Sign up
           </Link>
         </form>
