@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   Stack,
   TextField,
@@ -16,12 +17,7 @@ import { TasksCollection } from '../db/TasksCollection';
 
 export const TaskData = () => {
   const adapter = new AdapterDayjs();
-  const { taskId } = useParams();
-
-  const task = () => TasksCollection.find({ taskId }).fetch();
-  {
-    task;
-  }
+  const { taskId }  = useParams();
 
   const [edit, setEdit] = useState(false);
   const [taskName, setTaskName] = useState('');
@@ -152,19 +148,19 @@ export const TaskData = () => {
           ) : (
             <>
               <Typography marginY={2} variant='subtitle1'>
-                Name: ?????
+                Name: ????
               </Typography>
               <Typography marginY={2} variant='subtitle1'>
-                Description: ?????
+                Description: ????
               </Typography>
               <Typography marginY={2} variant='subtitle1'>
-                Creator: ??/??/????
+                Creator: ????
               </Typography>
               <Typography marginY={2} variant='subtitle1'>
                 Dealine: ????
               </Typography>
               <Typography marginY={2} variant='subtitle1'>
-                {taskStatus}
+                ????
               </Typography>
               <Button variant='contained' onClick={handleEditButtonClick}>
                 Edit

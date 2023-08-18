@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Link as RouterLink, Navigate } from 'react-router-dom'; 
+import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom'; 
 import {
   Stack,
   TextField,
@@ -11,9 +11,9 @@ import {
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Navbar } from './NavBar';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { useParams } from 'react-router-dom';
 
 export const CreateTask = () => {
+  const navigate = useNavigate();
   const adapter = new AdapterDayjs();
   const { taskId } = useParams();
 
@@ -27,10 +27,10 @@ export const CreateTask = () => {
     Meteor.call('tasks.insert', {
       name: taskName,
       description: taskDescription,
-      deadline: taskDeadline.date
+      deadline: taskDeadline.toDate(),
     });
 
-    <Navigate to={'/'} replace={true} />
+    navigate('/');
   };
 
   return (

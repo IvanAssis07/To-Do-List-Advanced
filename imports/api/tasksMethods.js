@@ -14,10 +14,20 @@ Meteor.methods({
     TasksCollection.insert({
       name: taskData.name,
       description: taskData.description,
-      deadline: taskData.name,
+      deadline: taskData.deadline,
+      status: 'Cadastrada',
       creator: this.userId,
       userId: this.userId,
       createdAt: new Date()
     });
   },
+  'tasks.remove'(taskId) {
+    check(taskId, String);
+
+    if (!this.userId) {
+      throw new Meteor.Error('Not authorized.');
+    }
+
+    TasksCollection.remove(taskId);
+  }
 });

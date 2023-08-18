@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom'; 
+import { Meteor } from 'meteor/meteor';
 import {  
   ListItem, 
   ListItemText, 
@@ -7,14 +8,15 @@ import {
   ListItemAvatar, 
   Avatar,
   Divider, 
-  Button,
-  Link} from '@mui/material';
+  Button} from '@mui/material';
 import TaskIcon from '@mui/icons-material/Task';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 
 
-export const Task = ({task, onDeleteClick}) => {
+export const Task = ({task}) => {
+  const deleteTask = ({ _id }) => Meteor.call('tasks.remove', _id);
+  
   return (
     <>
       <ListItem>
@@ -25,8 +27,8 @@ export const Task = ({task, onDeleteClick}) => {
             </Avatar>
           </ListItemAvatar>
         </ListItemIcon>
-        <ListItemText primary={task.name} secondary={task.creator} />
-        <RouterLink to={`/TaskData/${task.id}`}>
+        <ListItemText primary={task.name} secondary={task._id} />
+        <RouterLink to={`/TaskData/${task._id}`}>
           <Button 
             variant='outlined' 
             aria-label='edit' 
@@ -41,7 +43,7 @@ export const Task = ({task, onDeleteClick}) => {
           aria-label='delete' 
           edge='end' 
           sx={{ marginLeft: '3%', borderRadius: 8 }}
-          onClick={() => onDeleteClick(task)}
+          onClick={() => deleteTask(task)}
         >
           <DeleteIcon  /> 
         </Button>
