@@ -8,7 +8,6 @@ import { List, Button, Stack, Box } from '@mui/material';
 import { TasksCollection } from '../db/TasksCollection';
 import AddIcon from '@mui/icons-material/Add';
 import CircularProgress from '@mui/material/CircularProgress';
-import { CreateTask } from './CreateTask';
 import { Link as RouterLink } from 'react-router-dom'; 
 
 export const App = () => {
