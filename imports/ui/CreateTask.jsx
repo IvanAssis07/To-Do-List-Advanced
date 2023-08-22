@@ -71,6 +71,7 @@ export const CreateTask = () => {
               onChange={(e) => setTaskDescription(e.target.value)}
             />
             <DatePicker
+              minDate={adapter.date()}
               fullWidth
               sx={{ width: '100%', marginBottom: 2, marginTop: 2 }}
               label='Deadline'

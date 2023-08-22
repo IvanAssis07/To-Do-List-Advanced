@@ -3,7 +3,7 @@ import SimpleSchema from 'simpl-schema';
 
 export const TasksCollection = new Mongo.Collection('tasks');
 
-TasksCollection.schema = new SimpleSchema({
+const taskSchema = new SimpleSchema({
   name: {
     type: String,
   },
@@ -35,4 +35,4 @@ TasksCollection.schema = new SimpleSchema({
   }
 });
 
-TasksCollection.attachSchema(TasksCollection.schema);
+TasksCollection.attachSchema(taskSchema);

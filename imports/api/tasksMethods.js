@@ -21,13 +21,18 @@ Meteor.methods({
     }
   },
   'tasks.remove'(taskId) {
-    check(taskId, String);
-
-    if (!this.userId) {
-      throw new Meteor.Error('Not authorized.');
+    try{
+      check(taskId, String);
+  
+      if (!this.userId) {
+        throw new Meteor.Error('Not authorized.');
+      }
+  
+      TasksCollection.remove(taskId);
+    } catch(error) {
+      console.error('Validation error:', error.message);
+      throw new Meteor.Error(('Validation error:', error.message));
     }
-
-    TasksCollection.remove(taskId);
   },
   'tasks.update'(taskId, taskData) {
     try {

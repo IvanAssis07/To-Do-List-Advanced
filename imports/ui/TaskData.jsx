@@ -98,7 +98,7 @@ export const TaskData = () => {
           taskDescription: task.description,
           taskDeadline: adapter.date(task.deadline),
           taskStatus: task.status,
-          taskCreator: task.creator
+          taskCreator: task.userId
         });
 
         setOriginalData({
@@ -106,7 +106,7 @@ export const TaskData = () => {
           taskDescription: task.description,
           taskDeadline: task.deadline,
           taskStatus: task.status,
-          taskCreator: task.creator
+          taskCreator: task.userId
         });
       }
 
