@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Meteor } from "meteor/meteor";
+import React, { useState, useEffect } from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   Stack,
   TextField,
@@ -7,58 +7,79 @@ import {
   Button,
   Typography,
   MenuItem,
-} from "@mui/material";
-import Select from "@mui/material/Select";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Navbar } from "./NavBar";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useParams } from "react-router-dom";
-import CircularProgress from "@mui/material/CircularProgress";
-import { TasksCollection } from "../db/TasksCollection";
-import { useTracker } from "meteor/react-meteor-data";
+} from '@mui/material';
+import Select from '@mui/material/Select';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { Navbar } from './NavBar';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useParams } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+import { TasksCollection } from '../db/TasksCollection';
+import { useTracker } from 'meteor/react-meteor-data';
 
 export const TaskData = () => {
   const adapter = new AdapterDayjs();
   const { taskId } = useParams();
 
   const [edit, setEdit] = useState(false);
-  const [taskName, setTaskName] = useState("");
-  const [taskDescription, setTaskDescription] = useState("");
-  const [taskStatus, setTaskStatus] = useState("");
-  const [taskDeadline, setTaskDeadline] = useState('');
-  const [taskCreator, setTaskCreator] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [originStatus, setOriginStatus] = useState('');
+
+  const [formData, setFormData] = useState({
+    taskName: '',
+    taskDescription: '',
+    taskStatus: '',
+    taskDeadline: '',
+    taskCreator: ''
+  });
+
+  const [originalData, setOriginalData] = useState({
+    taskName: '',
+    taskDescription: '',
+    taskStatus: '',
+    taskDeadline: '',
+    taskCreator: ''
+  });
 
   const validTransitions = {
-    Cadastrada: ["Cadastrada", "Em Andamento"],
-    "Em Andamento": ["Em Andamento", "Concluída", "Cadastrada"],
-    Concluída: ["Concluída", "Cadastrada"],
+    Cadastrada: ['Cadastrada', 'Em Andamento'],
+    'Em Andamento': ['Em Andamento', 'Concluída', 'Cadastrada'],
+    Concluída: ['Concluída', 'Cadastrada'],
   };
 
-  const availableStatusOptions = validTransitions[taskStatus];
+  const availableStatusOptions = validTransitions[formData.taskStatus];
+  
+  const handleStatusTransitions = (newStatus) => {
+    setFormData({ ...formData, taskStatus: newStatus });
+  };
 
   const handleEditButtonClick = () => {
     setEdit(true);
   };
 
   const handleCancelButtonClick = () => {
-    Meteor.call('tasks.update', {
-      name: taskName,
-      description: taskDescription,
-      deadline: taskDeadline.toDate(),
-      status: taskStatus
-    });
-
+    setFormData({ ...originalData });
     setEdit(false);
   };
 
   const handleSaveButtonClick = () => {
-    setEdit(false);
-  };
-
-  const handleStatusTransitions = (newStatus) => {
-    setTaskStatus(newStatus);
+    try{
+      setIsLoading(true);
+      Meteor.call('tasks.update', taskId, {
+        name: formData.taskName,
+        description: formData.taskDescription,
+        deadline: formData.taskDeadline.toDate(),
+        status: formData.taskStatus
+      }, (error) => {
+        if (error) {
+          window.alert(error.message);
+        } else {
+          setEdit(false);
+          setIsLoading(false);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useTracker(() => {
@@ -66,18 +87,27 @@ export const TaskData = () => {
       return;
     }
 
-    const handler = Meteor.subscribe("taskData", taskId);
+    const handler = Meteor.subscribe('taskData', taskId);
 
     if (handler.ready()) {
       const task = TasksCollection.findOne({ _id: taskId });
 
       if (task) {
-        setTaskName(task.name);
-        setTaskDescription(task.description);
-        setTaskDeadline(task.deadline);
-        setTaskStatus(task.status);
-        setOriginStatus(task.status);
-        setTaskCreator(task.creator);
+        setFormData({
+          taskName: task.name,
+          taskDescription: task.description,
+          taskDeadline: adapter.date(task.deadline),
+          taskStatus: task.status,
+          taskCreator: task.creator
+        });
+
+        setOriginalData({
+          taskName: task.name,
+          taskDescription: task.description,
+          taskDeadline: task.deadline,
+          taskStatus: task.status,
+          taskCreator: task.creator
+        });
       }
 
       setIsLoading(false);
@@ -88,76 +118,79 @@ export const TaskData = () => {
     <>
       <Navbar />
       <Stack
-        direction="column"
+        direction='column'
         sx={{
-          display: "flex",
-          marginTop: "5%",
-          minHeight: "100vh",
-          textAlign: "center",
+          display: 'flex',
+          marginTop: '5%',
+          minHeight: '100vh',
+          textAlign: 'center',
         }}
       >
-        <Typography variant="h3">Edit task</Typography>
+        <Typography variant='h3'>Edit task</Typography>
         {isLoading ? (
           <Box
             sx={{
-              display: "flex",
-              marginTop: "10%",
-              justifyContent: "center",
+              display: 'flex',
+              marginTop: '10%',
+              justifyContent: 'center',
             }}
           >
             <CircularProgress />
           </Box>
         ) : (
-          <Box component="form" autoComplete="off">
+          <Box component='form' autoComplete='off'>
             {edit ? (
-              <Box paddingX="30%">
+              <Box paddingX='30%'>
                 <TextField
                   autoFocus
-                  margin="normal"
+                  margin='normal'
                   fullWidth
-                  id="name"
-                  defaultValue={taskName}
-                  label="Name"
-                  name="name"
+                  id='name'
+                  defaultValue={formData.taskName}
+                  label='Name'
+                  name='name'
                   disabled={!edit}
-                  onChange={(e) => setTaskName(e.target.value)}
+                  onChange={(e) =>
+                    setFormData({ ...formData, taskName: e.target.value })}
                 />
                 <TextField
-                  margin="normal"
+                  margin='normal'
                   fullWidth
-                  id="description"
-                  defaultValue={taskDescription}
-                  label="Description"
-                  name="taskDescription"
+                  id='description'
+                  defaultValue={formData.taskDescription}
+                  label='Description'
+                  name='taskDescription'
                   disabled={!edit}
-                  onChange={(e) => setTaskDescription(e.target.value)}
+                  onChange={(e) =>
+                    setFormData({ ...formData, taskDescription: e.target.value })}
                 />
                 <TextField
-                  margin="normal"
+                  margin='normal'
                   fullWidth
-                  id="creator"
-                  defaultValue={taskCreator}
-                  label="Creator"
-                  name="creator"
+                  id='creator'
+                  defaultValue={formData.taskCreator}
+                  label='Creator'
+                  name='creator'
                   disabled={!edit}
-                  onChange={(e) => setTaskDeadline(e.target.value)}
                 />
                 <DatePicker
+                  minDate={adapter.date()}
                   fullWidth
-                  sx={{ width: "100%", marginBottom: 2, marginTop: 2 }}
+                  sx={{ width: '100%', marginBottom: 2, marginTop: 2 }}
                   disabled={!edit}
-                  label="Deadline"
-                  value={adapter.date(taskDeadline)}
-                  onChange={(deadline) => setTaskDeadline(deadline)}
+                  label='Deadline'
+                  value={adapter.date(formData.taskDeadline)}
+                  onChange={(deadline) =>
+                    setFormData({ ...formData, taskDeadline: deadline })}
                 />
                 <Box>
                   <Select
-                    id="status"
-                    label="status"
+                    id='status'
+                    label='status'
                     onChange={(e) => handleStatusTransitions(e.target.value)}
                     disabled={!edit}
-                    value={taskStatus}
-                    sx={{ width: "70%", marginRight: "5%" }}
+                    value={formData.taskStatus}
+                    sx={{ width: '70%', marginRight: '5%' }}
                   >
                     {availableStatusOptions.map((status, index) => (
                       <MenuItem
@@ -170,20 +203,20 @@ export const TaskData = () => {
                     ))}
                   </Select>
                   <Button
-                    variant="outlined"
-                    sx={{ width: "25%", height: "100%" }}
-                    onClick={() => handleStatusTransitions(originStatus)}
+                    variant='outlined'
+                    sx={{ width: '25%', height: '100%' }}
+                    onClick={() => handleStatusTransitions(originalData.taskStatus)}
                   >
                     Reset Status
                   </Button>
                 </Box>
                 <Box sx={{ marginTop: 2 }}>
-                  <Button variant="contained" onClick={handleCancelButtonClick}>
+                  <Button variant='contained' onClick={handleCancelButtonClick}>
                     Cancel
                   </Button>
                   <Button
                     sx={{ marginLeft: 4 }}
-                    variant="contained"
+                    variant='contained'
                     onClick={handleSaveButtonClick}
                   >
                     Save
@@ -192,22 +225,22 @@ export const TaskData = () => {
               </Box>
             ) : (
               <>
-                <Typography marginY={2} variant="subtitle1">
-                  Name: {taskName}
+                <Typography marginY={2} variant='subtitle1'>
+                  Name: {originalData.taskName}
                 </Typography>
-                <Typography marginY={2} variant="subtitle1">
-                  Description: {taskDescription}
+                <Typography marginY={2} variant='subtitle1'>
+                  Description: {originalData.taskDescription}
                 </Typography>
-                <Typography marginY={2} variant="subtitle1">
-                  Creator: ???
+                <Typography marginY={2} variant='subtitle1'>
+                  Creator: {originalData.taskCreator}
                 </Typography>
-                <Typography marginY={2} variant="subtitle1">
-                  Dealine: {taskDeadline.toLocaleString()}
+                <Typography marginY={2} variant='subtitle1'>
+                  Deadline: {originalData.taskDeadline.toLocaleString()}
                 </Typography>
-                <Typography marginY={2} variant="subtitle1">
-                  Status: {taskStatus}
+                <Typography marginY={2} variant='subtitle1'>
+                  Status: {originalData.taskStatus}
                 </Typography>
-                <Button variant="contained" onClick={handleEditButtonClick}>
+                <Button variant='contained' onClick={handleEditButtonClick}>
                   Edit
                 </Button>
               </>

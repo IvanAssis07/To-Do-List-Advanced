@@ -22,15 +22,19 @@ export const CreateTask = () => {
   const [taskDeadline, setTaskDeadline] = useState(adapter.date());
 
   const handleSubmit = e => {
-    e.preventDefault();
-
-    Meteor.call('tasks.insert', {
-      name: taskName,
-      description: taskDescription,
-      deadline: taskDeadline.toDate(),
-    });
-
-    navigate('/');
+    try {
+      e.preventDefault();
+  
+      Meteor.call('tasks.insert', {
+        name: taskName,
+        description: taskDescription,
+        deadline: taskDeadline.toDate(),
+      });
+  
+      navigate('/');
+    } catch (error) {
+      window.alert(error.message)
+    }
   };
 
   return (
