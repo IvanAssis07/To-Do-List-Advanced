@@ -179,6 +179,7 @@ export const TaskData = () => {
                   sx={{ width: '100%', marginBottom: 2, marginTop: 2 }}
                   disabled={!edit}
                   label='Deadline'
+                  format="DD/MM/YYYY"
                   value={adapter.date(formData.taskDeadline)}
                   onChange={(deadline) =>
                     setFormData({ ...formData, taskDeadline: deadline })}

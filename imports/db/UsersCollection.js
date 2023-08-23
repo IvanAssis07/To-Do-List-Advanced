@@ -37,12 +37,12 @@ const userSchema = new SimpleSchema({
     type: Date,
     optional: false,
   },
-  gender: {
+  sex: {
     type: String,
     allowedValues: ['Male', 'Female'],
     optional: false,
   },
-  organization: {
+  company: {
     type: String,
     optional: false,
   },

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { Button, TextField, Paper, Link } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 export const LoginForm = () => {
   const [userName, setUserName] = useState('');
@@ -69,9 +70,9 @@ export const LoginForm = () => {
           >
             Login
           </Button>
-          <Link href='#'>
-            Don't have an account? Sign up
-          </Link>
+            <Link component={RouterLink} to='/CreateAccount'>
+              Don't have an account? Sign up
+            </Link>
         </form>
       </Paper>
     </Box>

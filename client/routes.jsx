@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { CreateTask } from '../imports/ui/CreateTask';
+import { CreateAccount } from '../imports/ui/CreateAccount';
 
 Meteor.startup(() => {
   const root = createRoot(document.getElementById('react-target'));
@@ -18,7 +19,8 @@ Meteor.startup(() => {
           <Route path='/' element={<App />} />
           <Route path='/TaskData/:taskId' element={<TaskData />} />
           <Route path='/Tasks' />
-          <Route path='/CreateTask' element={<CreateTask />}/>
+          <Route path='/CreateTask' element={<CreateTask />} />
+          <Route path='/CreateAccount' element={<CreateAccount />}/>
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>

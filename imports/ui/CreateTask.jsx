@@ -72,6 +72,7 @@ export const CreateTask = () => {
             />
             <DatePicker
               minDate={adapter.date()}
+              format="DD/MM/YYYY"
               fullWidth
               sx={{ width: '100%', marginBottom: 2, marginTop: 2 }}
               label='Deadline'
