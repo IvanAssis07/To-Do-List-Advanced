@@ -3,7 +3,7 @@ import { TasksCollection } from '../db/TasksCollection';
 import { check } from 'meteor/check';
 
 Meteor.publish('tasks', function publishTasks() {
-  return TasksCollection.find({userId: this.userId})
+  return TasksCollection.find()
 });
 
 Meteor.publish('taskData', function (taskId) {

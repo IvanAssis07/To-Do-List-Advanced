@@ -20,18 +20,22 @@ Meteor.methods({
       throw new Meteor.Error(('Validation error:', error.message));
     }
   },
-  'tasks.remove'(taskId) {
+  'tasks.remove'(taskId, taskUserId) {
     try{
       check(taskId, String);
   
       if (!this.userId) {
         throw new Meteor.Error('Not authorized.');
       }
+
+      if (taskUserId !== this.userId) {
+        throw new Meteor.Error('Not authorized.');
+      }
   
       TasksCollection.remove(taskId);
     } catch(error) {
-      console.error('Validation error:', error.message);
-      throw new Meteor.Error(('Validation error:', error.message));
+      console.error('Error:', error.message);
+      throw new Meteor.Error(('Error:', error.message));
     }
   },
   'tasks.update'(taskId, taskData) {
@@ -40,6 +44,10 @@ Meteor.methods({
     
       if (!this.userId) {
         throw new Meteor.Error('Not Authorized');
+      }
+
+      if (taskData.userId !== this.userId) {
+        throw new Meteor.Error('Not authorized.');
       }
     
       const task = TasksCollection.findOne({ _id: taskId, userId: this.userId });
