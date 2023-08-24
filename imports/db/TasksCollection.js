@@ -24,6 +24,10 @@ const taskSchema = new SimpleSchema({
       return this.userId;
     }
   },
+  private: {
+    type: Boolean,
+    optional: false
+  },
   createdAt: {
     type: Date,
     optional: true,

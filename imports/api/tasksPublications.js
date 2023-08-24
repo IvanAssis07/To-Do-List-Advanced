@@ -3,11 +3,24 @@ import { TasksCollection } from '../db/TasksCollection';
 import { check } from 'meteor/check';
 
 Meteor.publish('tasks', function publishTasks() {
-  return TasksCollection.find()
+  if (!this.userId) {
+    throw new Meteor.Error('Not Authorized');
+  }
+
+  return TasksCollection.find({
+    $or: [
+      { private: false },
+      { private: true, userId: this.userId },
+    ],
+  })
 });
 
 Meteor.publish('taskData', function (taskId) {
   check(taskId, String);
+
+  if (!this.userId) {
+    throw new Meteor.Error('Not Authorized');
+  }
   
   return TasksCollection.find({_id: taskId});
 });

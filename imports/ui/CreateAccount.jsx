@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Meteor } from "meteor/meteor";
-import { Accounts } from 'meteor/accounts-base';
 import {
   MenuItem,
   TextField,
@@ -11,6 +10,7 @@ import {
   Select,
   FormControl,
   InputLabel,
+  Avatar,
   Card
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -20,6 +20,8 @@ import { useNavigate } from 'react-router-dom';
 
 export const CreateAccount = () => {
   const adapter = new AdapterDayjs();
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,29 +32,22 @@ export const CreateAccount = () => {
     password: "",
   });
 
-  console.log(formData);
-
-  const [photoFile, setPhotoFile] = useState(null);
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    console.log(formData.birthDate);
 
-    Accounts.createUser({
-      email: formData.email,
-      password: formData.password,
-      profile: {
+    Meteor.call(
+      'users.insert', {
         name: formData.name,
+        email: formData.email,
+        birthDate: formData.birthDate.toDate(),
         sex: formData.sex,
         company: formData.company,
         photo: formData.photo,
-        birthDate: formData.birthDate.toDate()
-      }
+        password: formData.password,
     }, (error) => {
-      if(error){
-        console.log(error.reason); 
+      if (error) {
+        console.log(error.message); 
       } else {
         navigate('/'); 
       }
@@ -65,13 +60,11 @@ export const CreateAccount = () => {
 
       reader.onload = (e) => {
         const base64 = e.target.result;
-        setPhotoFile(file);
         setFormData({...formData, photo: base64})
       };
 
       reader.readAsDataURL(file);
     } else {
-      setPhotoFile(null);
       setFormData({...formData, photo: ''})
     }
   };
@@ -177,10 +170,23 @@ export const CreateAccount = () => {
             }
           />
           <Card sx={{ paddingY: 2 }}>
-            {photoFile && (
-              <Box mt={2} marginBottom={2}>
-                <img src={formData.photo} alt="Uploaded Image" height="250" />
-              </Box>
+            {formData.photo && (
+              <Box 
+              display="flex" 
+              alignItems="center" 
+              justifyContent="center"
+              paddingY={2}>
+              <Avatar 
+                alt="Profile pic" 
+                src={formData.photo} 
+                sx={{ 
+                  width: 150, 
+                  height: 150,
+                  border: 'solid',
+                  borderColor: '#1976d2'
+                }}
+              />
+            </Box>
             )}
             <label htmlFor="upload-image">
               <Button variant="contained" component="span">

@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { Meteor } from "meteor/meteor";
+import { TasksCollection } from "../db/TasksCollection";
+import { useTracker } from "meteor/react-meteor-data";
 import {
   Stack,
   TextField,
@@ -7,15 +10,17 @@ import {
   Button,
   Typography,
   MenuItem,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
 } from "@mui/material";
 import Select from "@mui/material/Select";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Navbar } from "./NavBar";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useParams } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
-import { TasksCollection } from "../db/TasksCollection";
-import { useTracker } from "meteor/react-meteor-data";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import LockPersonIcon from "@mui/icons-material/LockPerson";
+import { Navbar } from "./NavBar";
 
 export const TaskData = () => {
   const adapter = new AdapterDayjs();
@@ -30,6 +35,7 @@ export const TaskData = () => {
     taskStatus: "",
     taskDeadline: "",
     taskCreator: "",
+    taskPrivate: "",
   });
 
   const [originalData, setOriginalData] = useState({
@@ -38,6 +44,7 @@ export const TaskData = () => {
     taskStatus: "",
     taskDeadline: "",
     taskCreator: "",
+    taskPrivate: "",
   });
 
   const validTransitions = {
@@ -61,30 +68,6 @@ export const TaskData = () => {
     setEdit(false);
   };
 
-  const handleSaveButtonClick = () => {
-    setIsLoading(true);
-
-    Meteor.call(
-      "tasks.update",
-      taskId,
-      {
-        name: formData.taskName,
-        description: formData.taskDescription,
-        deadline: formData.taskDeadline.toDate(),
-        status: formData.taskStatus,
-        userId: originalData.taskCreator
-      },
-      (error) => {
-        if (error) {
-          window.alert(error.message);
-        } else {
-          setEdit(false);
-          setIsLoading(false);
-        }
-      }
-    );
-  };
-
   useTracker(() => {
     if (!Meteor.user()) {
       return;
@@ -102,20 +85,48 @@ export const TaskData = () => {
           taskDeadline: adapter.date(task.deadline),
           taskStatus: task.status,
           taskCreator: task.userId,
+          taskPrivate: task.private,
         });
 
         setOriginalData({
           taskName: task.name,
           taskDescription: task.description,
-          taskDeadline: task.deadline,
+          taskDeadline: adapter.date(task.deadline),
           taskStatus: task.status,
           taskCreator: task.userId,
+          taskPrivate: task.private,
         });
       }
 
       setIsLoading(false);
     }
   }, [taskId]);
+  
+  const handleSaveButtonClick = () => {
+    setIsLoading(true);
+
+    Meteor.call(
+      "tasks.update",
+      taskId,
+      {
+        name: formData.taskName,
+        description: formData.taskDescription,
+        deadline: formData.taskDeadline.toDate(),
+        status: formData.taskStatus,
+        userId: originalData.taskCreator,
+        private: formData.taskPrivate,
+      },
+      (error) => {
+        if (error) {
+          window.alert(error.message);
+        } else {
+          setEdit(false);
+          setIsLoading(false);
+        }
+      }
+    );
+  };
+
 
   return (
     <>
@@ -184,7 +195,11 @@ export const TaskData = () => {
                 <DatePicker
                   minDate={adapter.date()}
                   fullWidth
-                  sx={{ width: "100%", marginBottom: 2, marginTop: 2 }}
+                  sx={{ 
+                    width: "100%", 
+                    marginBottom: 2, 
+                    marginTop: 2 
+                  }}
                   disabled={!edit}
                   label="Deadline"
                   format="DD/MM/YYYY"
@@ -200,7 +215,10 @@ export const TaskData = () => {
                     onChange={(e) => handleStatusTransitions(e.target.value)}
                     disabled={!edit}
                     value={formData.taskStatus}
-                    sx={{ width: "70%", marginRight: "5%" }}
+                    sx={{
+                      width: "70%",
+                      marginRight: "5%",
+                    }}
                   >
                     {availableStatusOptions.map((status, index) => (
                       <MenuItem
@@ -222,6 +240,30 @@ export const TaskData = () => {
                     Reset Status
                   </Button>
                 </Box>
+                <FormGroup
+                  sx={{
+                    alignItems: "center",
+                    marginBottom: 2,
+                    marginTop: 2,
+                  }}
+                >
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        icon={<LockOpenIcon />}
+                        checkedIcon={<LockPersonIcon />}
+                        checked={formData.taskPrivate}
+                        onChange={() =>
+                          setFormData({
+                            ...formData,
+                            taskPrivate: !formData.taskPrivate,
+                          })
+                        }
+                      />
+                    }
+                    label="Private task"
+                  />
+                </FormGroup>
                 <Box sx={{ marginTop: 2 }}>
                   <Button variant="contained" onClick={handleCancelButtonClick}>
                     Cancel

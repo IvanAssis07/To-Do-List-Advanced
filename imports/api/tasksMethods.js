@@ -1,20 +1,20 @@
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 import { TasksCollection } from '../db/TasksCollection';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 Meteor.methods({
   'tasks.insert'(taskData) { 
     try {
       if (!this.userId) {
         throw new Meteor.Error('Not authorized.');
-    }
-  
-    TasksCollection.insert({
-        name: taskData.name,
-        description: taskData.description,
-        deadline: taskData.deadline,
-    });
+      }
+    
+      TasksCollection.insert({
+          name: taskData.name,
+          description: taskData.description,
+          deadline: taskData.deadline,
+          private: taskData.private
+      });
     } catch (error) {
       console.error('Validation error:', error.message);
       throw new Meteor.Error(('Validation error:', error.message));
@@ -53,7 +53,7 @@ Meteor.methods({
       const task = TasksCollection.findOne({ _id: taskId, userId: this.userId });
     
       if (!task) {
-        throw new Meteor.Error('Access denied.');
+        throw new Meteor.Error('Not found.');
       }
     
       TasksCollection.update(taskId, {
@@ -62,6 +62,7 @@ Meteor.methods({
           description: taskData.description,
           deadline: taskData.deadline,
           status: taskData.status,
+          private: taskData.private
         },
       });
     } catch (error) {

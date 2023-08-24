@@ -13,10 +13,6 @@ import { Link as RouterLink } from 'react-router-dom';
 export const App = () => {
   const user = useTracker(() => Meteor.user());
 
-  const deleteTask = ({ _id }) => {
-    TasksCollection.remove(_id);
-  };
-
   const { tasks, isLoading } = useTracker(() => {
     const noTasksAvailable = { tasks: [] };
 
@@ -75,7 +71,7 @@ export const App = () => {
             <Box marginX={'20%'} marginTop={2}>
               <List disablePadding>
                 {tasks.map((task) => (
-                  <Task key={task._id} task={task} onDeleteClick={deleteTask} />
+                  <Task key={task._id} task={task}/>
                 ))}
               </List>
             </Box>

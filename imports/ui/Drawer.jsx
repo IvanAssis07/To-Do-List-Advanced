@@ -11,6 +11,7 @@ import React, { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import { RouterLink, useNavigate } from 'react-router-dom'; 
 
 export const AppDrawer = () => {
   [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -34,7 +35,10 @@ export const AppDrawer = () => {
                 Menu
               </Typography>
               <List>
-                <ListItemButton>
+                <ListItemButton
+                  component={RouterLink} 
+                  to='/Profile'
+                >
                   <ListItem>
                     <ListItemIcon>
                       <PersonIcon />
@@ -43,7 +47,10 @@ export const AppDrawer = () => {
                   </ListItem>
                 </ListItemButton>
                 <ListItem>
-                  <ListItemButton>
+                  <ListItemButton
+                    component={RouterLink} 
+                    to='/'
+                  >
                     <ListItemIcon>
                       <PlaylistAddCheckIcon />
                     </ListItemIcon>

@@ -7,28 +7,36 @@ import {
   Box,
   Button,
   Typography,
+  FormGroup,
+  FormControlLabel,
+  Checkbox
 } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { Navbar } from './NavBar';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockPersonIcon from '@mui/icons-material/LockPerson';
+import { Navbar } from './NavBar';
 
 export const CreateTask = () => {
   const navigate = useNavigate();
   const adapter = new AdapterDayjs();
-  const { taskId } = useParams();
 
-  const [taskName, setTaskName] = useState('');
-  const [taskDescription, setTaskDescription] = useState('');
-  const [taskDeadline, setTaskDeadline] = useState(adapter.date());
+  const [formData, setFormData] = useState({
+    taskName: "",
+    taskDescription: "",
+    taskDeadline: adapter.date(),
+    taskPrivate: false
+  })
 
   const handleSubmit = e => {
     try {
       e.preventDefault();
   
       Meteor.call('tasks.insert', {
-        name: taskName,
-        description: taskDescription,
-        deadline: taskDeadline.toDate(),
+        name: formData.taskName,
+        description: formData.taskDescription,
+        deadline: formData.taskDeadline.toDate(),
+        private: formData.taskPrivate
       });
   
       navigate('/');
@@ -59,7 +67,9 @@ export const CreateTask = () => {
               id='name'
               label='Name'
               name='name'
-              onChange={(e) => setTaskName(e.target.value)}
+              onChange={(e) => 
+                setFormData({...formData, taskName: e.target.value})
+              }
             />
             <TextField
               margin='normal'
@@ -68,17 +78,41 @@ export const CreateTask = () => {
               id='description'
               label='Description'
               name='taskDescription'
-              onChange={(e) => setTaskDescription(e.target.value)}
+              onChange={(e) => 
+                setFormData({...formData, taskDescription: e.target.value})
+              }
             />
             <DatePicker
               minDate={adapter.date()}
+              require
               format="DD/MM/YYYY"
               fullWidth
               sx={{ width: '100%', marginBottom: 2, marginTop: 2 }}
               label='Deadline'
-              value={taskDeadline}
-              onChange={(deadline) => setTaskDeadline(deadline)}
+              value={formData.taskDeadline}
+              onChange={(deadline) =>
+                setFormData({ ...formData, taskDeadline: deadline })
+              }
             />
+            <FormGroup
+              sx={{
+                alignItems: 'center', 
+              }}
+            > 
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    icon={<LockOpenIcon />}
+                    checkedIcon={<LockPersonIcon />}
+                    checked={formData.taskPrivate}
+                    onChange={() => 
+                      setFormData({ ...formData, taskPrivate: !formData.taskPrivate})
+                    }
+                  />
+                }
+                label="Private task"
+              />
+            </FormGroup>
             <Box sx={{ marginTop: 2 }}>
               <Button variant='contained' component={RouterLink} to='/'>
                 Cancel
