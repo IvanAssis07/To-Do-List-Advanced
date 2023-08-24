@@ -62,8 +62,8 @@ export const TaskData = () => {
   };
 
   const handleSaveButtonClick = () => {
-    try{
       setIsLoading(true);
+      
       Meteor.call('tasks.update', taskId, {
         name: formData.taskName,
         description: formData.taskDescription,
@@ -77,9 +77,6 @@ export const TaskData = () => {
           setIsLoading(false);
         }
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   useTracker(() => {

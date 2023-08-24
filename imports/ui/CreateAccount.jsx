@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Meteor } from "meteor/meteor";
+import { Accounts } from 'meteor/accounts-base';
 import {
   MenuItem,
   TextField,
@@ -13,11 +14,12 @@ import {
   Card
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { Navbar } from "./NavBar";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useNavigate } from 'react-router-dom';
 
 export const CreateAccount = () => {
+  const adapter = new AdapterDayjs();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -28,10 +30,34 @@ export const CreateAccount = () => {
     password: "",
   });
 
-  const [photoFile, setPhotoFile] = useState(null);
-  const [photoBase64, setPhotoBase64] = useState("");
+  console.log(formData);
 
-  const handleSubmit = () => {};
+  const [photoFile, setPhotoFile] = useState(null);
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    console.log(formData.birthDate);
+
+    Accounts.createUser({
+      email: formData.email,
+      password: formData.password,
+      profile: {
+        name: formData.name,
+        sex: formData.sex,
+        company: formData.company,
+        photo: formData.photo,
+        birthDate: formData.birthDate.toDate()
+      }
+    }, (error) => {
+      if(error){
+        console.log(error.reason); 
+      } else {
+        navigate('/'); 
+      }
+    })
+  };
 
   const handlePhotoChange = (file) => {
     if (file) {
@@ -40,13 +66,13 @@ export const CreateAccount = () => {
       reader.onload = (e) => {
         const base64 = e.target.result;
         setPhotoFile(file);
-        setPhotoBase64(base64);
+        setFormData({...formData, photo: base64})
       };
 
       reader.readAsDataURL(file);
     } else {
       setPhotoFile(null);
-      setPhotoBase64("");
+      setFormData({...formData, photo: ''})
     }
   };
 
@@ -88,29 +114,31 @@ export const CreateAccount = () => {
             sx={{ width: "100%", marginBottom: 2, marginTop: 2 }}
             label="Birth date"
             format="DD/MM/YYYY"
-            onChange={(birthdate) =>
-              setFormData({ ...formData, birthDate: birthdate })
-            }
+            value={adapter.date(formData.birthDate)}
+            onChange={(deadline) =>
+              setFormData({ ...formData, birthDate: deadline })}
           />
-          <FormControl fullWidth required margin="normal">
-            <InputLabel id="sex">Sex</InputLabel>
-            <Select
-              labelId="sex"
-              label="Sex"
-              id="sex"
-              value={formData.sex}
-              onChange={(e) =>
-                setFormData({ ...formData, sex: e.target.value })
-              }
-            >
-              <MenuItem id={"Feminine"} value={"Feminine"}>
-                Feminine
-              </MenuItem>
-              <MenuItem id={"Masculine"} value={"Masculine"}>
-                Masculine
-              </MenuItem>
-            </Select>
-          </FormControl>
+          <Box>
+            <FormControl fullWidth required margin="normal">
+              <InputLabel id="sex">Sex</InputLabel>
+              <Select
+                labelId="sex"
+                label="Sex"
+                id="sex"
+                value={formData.sex || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, sex: e.target.value })
+                }
+              >
+                <MenuItem id={"Feminine"} value={"Feminine"}>
+                  Feminine
+                </MenuItem>
+                <MenuItem id={"Masculine"} value={"Masculine"}>
+                  Masculine
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
           <TextField
             margin="normal"
             required
@@ -120,7 +148,7 @@ export const CreateAccount = () => {
             id="company"
             autoComplete="off"
             onChange={(e) =>
-              setFormData({ ...setFormData, company: e.target.value })
+              setFormData({ ...formData, company: e.target.value })
             }
           />
           <TextField
@@ -151,7 +179,7 @@ export const CreateAccount = () => {
           <Card sx={{ paddingY: 2 }}>
             {photoFile && (
               <Box mt={2} marginBottom={2}>
-                <img src={photoBase64} alt="Uploaded Image" height="300" />
+                <img src={formData.photo} alt="Uploaded Image" height="250" />
               </Box>
             )}
             <label htmlFor="upload-image">

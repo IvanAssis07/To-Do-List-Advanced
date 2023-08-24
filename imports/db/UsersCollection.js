@@ -1,34 +1,9 @@
 import { Meteor }from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 
-const userSchema = new SimpleSchema({
-  username: {
-    type: String,
-    // For accounts-password, either emails or username is required, but not both. It is OK to make this
-    // optional here because the accounts-password package does its own validation.
-    // Third-party login packages may not require either. Adjust this schema as necessary for your usage.
-    optional: true,
-  },
-  emails: {
-    type: Array,
-    // For accounts-password, either emails or username is required, but not both. It is OK to make this
-    // optional here because the accounts-password package does its own validation.
-    // Third-party login packages may not require either. Adjust this schema as necessary for your usage.
-    optional: true,
-  },
-  'emails.$': {
-    type: Object,
-  },
-  'emails.$.address': {
-    type: String,
-    regEx: SimpleSchema.RegEx.Email,
-  },
-  'emails.$.verified': {
-    type: Boolean,
-  },
-  createdAt: {
-    type: Date,
-  },
+const Schema = {}
+
+Schema.UserProfile = new SimpleSchema({
   name: {
     type: String,
     optional: false,
@@ -49,7 +24,41 @@ const userSchema = new SimpleSchema({
   photo: {
     type: String,
     optional: true,
-  },
-});
+  }
+})
 
-Meteor.users.attachSchema(userSchema);
+Schema.User = new SimpleSchema({
+  emails: {
+    type: Array,
+    optional: true,
+  },
+  'emails.$': {
+    type: Object,
+  },
+  'emails.$.address': {
+    type: String,
+    regEx: SimpleSchema.RegEx.Email,
+  },
+  'emails.$.verified': {
+    type: Boolean,
+  },
+  profile: {
+    type: Schema.UserProfile,
+    optional: true,
+  },
+  createdAt: {
+    type: Date,
+  },
+  services: {
+    type: Object,
+    optional: true,
+    blackbox: true,
+  },
+  password: {
+    type: String,
+    blackbox: true
+  },  
+})
+
+
+Meteor.users.attachSchema(Schema.User);
