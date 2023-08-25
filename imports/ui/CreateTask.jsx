@@ -110,7 +110,7 @@ export const CreateTask = () => {
                     }
                   />
                 }
-                label="Private task"
+                label={formData.taskPrivate ? 'Make your task public.' : 'Make your task private.'}
               />
             </FormGroup>
             <Box sx={{ marginTop: 2 }}>

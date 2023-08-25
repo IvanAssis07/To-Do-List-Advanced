@@ -72,32 +72,36 @@ export const Profile = () => {
     if (!Meteor.user()) {
       return;
     }
-    
-    const user = Meteor.user();
 
-    if (user) {
-      setFormData({
-        name: user.profile.name,
-        email: user.emails[0].address,
-        birthDate: adapter.date(user.profile.birthDate),
-        sex: user.profile.sex,
-        company: user.profile.company,
-        photo: user.profile.photo,
-      });
+    const handler = Meteor.subscribe('userData');
 
-      setOriginalData({
-        name: user.profile.name,
-        email: user.emails[0].address,
-        birthDate: adapter.date(user.profile.birthDate),
-        sex: user.profile.sex,
-        company: user.profile.company,
-        photo: user.profile.photo,
-      });
+    if (handler.ready()) {
+      const user = Meteor.user();
+      console.log(user);
+
+      if (user) {
+        setFormData({
+          name: user.profile.name,
+          email: user.emails[0].address,
+          birthDate: adapter.date(user.profile.birthDate),
+          sex: user.profile.sex,
+          company: user.profile.company,
+          photo: user.profile.photo,
+        });
+
+        setOriginalData({
+          name: user.profile.name,
+          email: user.emails[0].address,
+          birthDate: adapter.date(user.profile.birthDate),
+          sex: user.profile.sex,
+          company: user.profile.company,
+          photo: user.profile.photo,
+        });
+      }
+
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
-    }
-  , []);
+    }, []);
   
   const handleSaveButtonClick = () => {
     setIsLoading(true);
