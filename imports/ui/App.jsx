@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { LoginForm } from './LoginForm';
@@ -11,9 +11,10 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { Link as RouterLink } from 'react-router-dom'; 
 
 export const App = () => {
-  const user = useTracker(() => Meteor.user());
+  const user = useTracker(() => Meteor.user(), []);
+  const [isLoading,setIsLoading] = useState(true);
 
-  const { tasks, isLoading } = useTracker(() => {
+  const { tasks } = useTracker(() => {
     const noTasksAvailable = { tasks: [] };
 
     if (!Meteor.user()) {
@@ -23,7 +24,7 @@ export const App = () => {
     const handler = Meteor.subscribe('tasks');
 
     if (!handler.ready()) {
-      return { ...noTasksAvailable, isLoading: true };
+      return { ...noTasksAvailable };
     }
 
     const tasks = TasksCollection.find(
@@ -32,9 +33,25 @@ export const App = () => {
         sort: { createdAt: -1 },
       }
     ).fetch();
+    
+    setIsLoading(false);
 
     return { tasks };
-  });
+  }, []);
+
+
+  // if (isLoading) {
+  //   return (
+  //     <Box sx={{ 
+  //       display: 'flex',
+  //       marginTop: '10%',
+  //       justifyContent: 'center'
+  //       }}
+  //     >
+  //       <CircularProgress />
+  //     </Box>
+  //   )
+  // }
 
   return (
     <>

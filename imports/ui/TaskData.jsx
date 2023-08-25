@@ -131,179 +131,167 @@ export const TaskData = () => {
   return (
     <>
       <Navbar />
-      <Stack
-        direction='column'
-        sx={{
-          display: 'flex',
-          marginTop: '5%',
-          minHeight: '100vh',
-          textAlign: 'center',
-        }}
-      >
-        <Typography variant='h3'>Edit task</Typography>
-        {isLoading ? (
-          <Box
-            sx={{
-              display: 'flex',
-              marginTop: '10%',
-              justifyContent: 'center',
-            }}
-          >
-            <CircularProgress />
-          </Box>
-        ) : (
-          <Box component='form' autoComplete='off'>
-            {edit ? (
-              <Box paddingX='30%'>
-                <TextField
-                  autoFocus
-                  margin='normal'
-                  fullWidth
-                  id='name'
-                  defaultValue={formData.taskName}
-                  label='Name'
-                  name='name'
-                  disabled={!edit}
-                  onChange={(e) =>
-                    setFormData({ ...formData, taskName: e.target.value })
-                  }
-                />
-                <TextField
-                  margin='normal'
-                  fullWidth
-                  id='description'
-                  defaultValue={formData.taskDescription}
-                  label='Description'
-                  name='taskDescription'
-                  disabled={!edit}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      taskDescription: e.target.value,
-                    })
-                  }
-                />
-                <TextField
-                  margin='normal'
-                  fullWidth
-                  id='creator'
-                  defaultValue={formData.taskCreator}
-                  label='Creator'
-                  name='creator'
-                  disabled={!edit}
-                />
-                <DatePicker
-                  minDate={adapter.date()}
-                  fullWidth
-                  sx={{ 
-                    width: '100%', 
-                    marginBottom: 2, 
-                    marginTop: 2 
-                  }}
-                  disabled={!edit}
-                  label='Deadline'
-                  format='DD/MM/YYYY'
-                  value={adapter.date(formData.taskDeadline)}
-                  onChange={(deadline) =>
-                    setFormData({ ...formData, taskDeadline: deadline })
-                  }
-                />
-                <Box>
-                  <Select
-                    id='status'
-                    label='status'
-                    onChange={(e) => handleStatusTransitions(e.target.value)}
+      <Box>
+        <Stack
+          direction='column'
+          sx={{
+            display: 'flex',
+            marginTop: '5%',
+            minHeight: '100vh',
+            textAlign: 'center',
+          }}
+        >
+          <Typography variant='h3'>Edit task</Typography>
+          {isLoading ? (
+            <Box
+              sx={{
+                display: 'flex',
+                marginTop: '10%',
+                justifyContent: 'center',
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          ) : (
+            <Box component='form' autoComplete='off'>
+                <Box marginX='10%'>
+                  <TextField
+                    autoFocus
+                    margin='normal'
+                    fullWidth
+                    id='name'
+                    defaultValue={formData.taskName}
+                    label='Name'
+                    name='name'
                     disabled={!edit}
-                    value={formData.taskStatus}
-                    sx={{
-                      width: '70%',
-                      marginRight: '5%',
-                    }}
-                  >
-                    {availableStatusOptions.map((status, index) => (
-                      <MenuItem
-                        key={index}
-                        value={status}
-                        disabled={index === 0}
-                      >
-                        {status}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                  <Button
-                    variant='outlined'
-                    sx={{ width: '25%', height: '100%' }}
-                    onClick={() =>
-                      handleStatusTransitions(originalData.taskStatus)
+                    onChange={(e) =>
+                      setFormData({ ...formData, taskName: e.target.value })
                     }
-                  >
-                    Reset Status
-                  </Button>
-                </Box>
-                <FormGroup
-                  sx={{
-                    alignItems: 'center',
-                    marginBottom: 2,
-                    marginTop: 2,
-                  }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        icon={<LockOpenIcon />}
-                        checkedIcon={<LockPersonIcon />}
-                        checked={formData.taskPrivate}
-                        onChange={() =>
-                          setFormData({
-                            ...formData,
-                            taskPrivate: !formData.taskPrivate,
-                          })
-                        }
-                      />
-                    }
-                    label={formData.taskPrivate ? 'Make your task public.' : 'Make your task private.'}
                   />
-                </FormGroup>
-                <Box sx={{ marginTop: 2 }}>
-                  <Button variant='contained' onClick={handleCancelButtonClick}>
-                    Cancel
-                  </Button>
-                  <Button
-                    sx={{ marginLeft: 4 }}
-                    variant='contained'
-                    onClick={handleSaveButtonClick}
-                  >
-                    Save
-                  </Button>
+                  <TextField
+                    margin='normal'
+                    fullWidth
+                    id='description'
+                    defaultValue={formData.taskDescription}
+                    label='Description'
+                    name='taskDescription'
+                    disabled={!edit}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        taskDescription: e.target.value,
+                      })
+                    }
+                  />
+                  <TextField
+                    margin='normal'
+                    fullWidth
+                    id='creator'
+                    defaultValue={formData.taskCreator}
+                    label='Creator'
+                    name='creator'
+                    disabled={!edit}
+                  />
+                  <DatePicker
+                    minDate={adapter.date()}
+                    fullWidth
+                    sx={{ 
+                      width: '100%', 
+                      marginBottom: 2, 
+                      marginTop: 2 
+                    }}
+                    disabled={!edit}
+                    label='Deadline'
+                    format='DD/MM/YYYY'
+                    value={adapter.date(formData.taskDeadline)}
+                    onChange={(deadline) =>
+                      setFormData({ ...formData, taskDeadline: deadline })
+                    }
+                  />
+                  <Box>
+                    <Select
+                      id='status'
+                      label='status'
+                      onChange={(e) => handleStatusTransitions(e.target.value)}
+                      disabled={!edit}
+                      value={formData.taskStatus}
+                      sx={{
+                        width: '70%',
+                        marginRight: '5%',
+                      }}
+                    >
+                      {availableStatusOptions.map((status, index) => (
+                        <MenuItem
+                          key={index}
+                          value={status}
+                          disabled={index === 0}
+                        >
+                          {status}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                    <Button
+                      variant='outlined'
+                      disabled={!edit}
+                      sx={{ width: '25%', height: '100%' }}
+                      onClick={() =>
+                        handleStatusTransitions(originalData.taskStatus)
+                      }
+                    >
+                      Reset Status
+                    </Button>
+
+                    <FormGroup
+                        sx={{
+                          alignItems: 'center',
+                          marginTop: 2,
+                        }}
+                      >
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              disabled={!edit}
+                              icon={<LockOpenIcon />}
+                              checkedIcon={<LockPersonIcon />}
+                              checked={formData.taskPrivate}
+                              onChange={() =>
+                                setFormData({
+                                  ...formData,
+                                  taskPrivate: !formData.taskPrivate,
+                                })
+                              }
+                            />
+                          }
+                          label={formData.taskPrivate ? 'Make your task public.' : 'Make your task private.'}
+                        />
+                      </FormGroup>
+                  </Box>
+                  {!edit ? (
+                    <Button sx={{marginTop: 2}} variant='contained' onClick={handleEditButtonClick}>
+                      Edit
+                    </Button>
+                  ) : (
+                    <>
+                      
+                      <Box sx={{ marginTop: 2 }}>
+                        <Button variant='contained' onClick={handleCancelButtonClick}>
+                          Cancel
+                        </Button>
+                        <Button
+                          sx={{ marginLeft: 4 }}
+                          variant='contained'
+                          onClick={handleSaveButtonClick}
+                        >
+                          Save
+                        </Button>
+                      </Box>
+                    </>
+                  )}
                 </Box>
-              </Box>
-            ) : (
-              <>
-                <Typography marginY={2} variant='subtitle1'>
-                  Name: {originalData.taskName}
-                </Typography>
-                <Typography marginY={2} variant='subtitle1'>
-                  Description: {originalData.taskDescription}
-                </Typography>
-                <Typography marginY={2} variant='subtitle1'>
-                  Creator: {originalData.taskCreator}
-                </Typography>
-                <Typography marginY={2} variant='subtitle1'>
-                  Deadline: {originalData.taskDeadline.toLocaleString()}
-                </Typography>
-                <Typography marginY={2} variant='subtitle1'>
-                  Status: {originalData.taskStatus}
-                </Typography>
-                {originalData.taskCreator === Meteor.userId() && (
-                  <Button variant='contained' onClick={handleEditButtonClick}>
-                    Edit
-                  </Button>
-                )}
-              </>
-            )}
-          </Box>
-        )}
-      </Stack>
+            </Box>
+          )}
+        </Stack>
+      </Box>
     </>
   );
 };

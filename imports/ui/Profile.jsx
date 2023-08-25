@@ -128,6 +128,19 @@ export const Profile = () => {
     );
   };
 
+  if (isLoading) {
+    return (
+      <Box sx={{ 
+        display: 'flex',
+        marginTop: '10%',
+        justifyContent: 'center'
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    )
+  }
+
   return (
     <>
       <Navbar />
@@ -141,17 +154,6 @@ export const Profile = () => {
         }}
       >
         <Typography variant='h3'>My Profile</Typography>
-        {isLoading ? (
-          <Box
-          sx={{
-            display: 'flex',
-            marginTop: '10%',
-            justifyContent: 'center',
-          }}
-        >
-          <CircularProgress />
-        </Box>
-        ) : (
           <Box component='form' autoComplete='off'>
             <Box paddingX='20%'>
               <Box 
@@ -293,7 +295,6 @@ export const Profile = () => {
             }
             </Box>
           </Box>
-        )} 
       </Stack>
     </>
   );

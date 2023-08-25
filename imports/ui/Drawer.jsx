@@ -90,7 +90,9 @@ export const AppDrawer = () => {
               }}
             />
           </Box>
-          <Typography variant='subtitle2' color='#54575b'>{userData.name}</Typography>
+          <Typography variant='subtitle2' color='#54575b'>
+            {userData.name}
+          </Typography>
           <Typography variant='subtitle2' color='#54575b' marginBottom={2}>
             {userData.email}
           </Typography>
