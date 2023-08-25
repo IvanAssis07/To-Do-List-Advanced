@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Meteor } from "meteor/meteor";
+import React, { useState } from 'react';
+import { Meteor } from 'meteor/meteor';
 import {
   MenuItem,
   TextField,
@@ -12,10 +12,10 @@ import {
   InputLabel,
   Avatar,
   Card
-} from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import CircularProgress from "@mui/material/CircularProgress";
+} from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import CircularProgress from '@mui/material/CircularProgress';
 import { useNavigate } from 'react-router-dom';
 
 export const CreateAccount = () => {
@@ -23,13 +23,13 @@ export const CreateAccount = () => {
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    birthDate: "",
-    sex: "",
-    company: "",
-    photo: "",
-    password: "",
+    name: '',
+    email: '',
+    birthDate: '',
+    sex: '',
+    company: '',
+    photo: '',
+    password: '',
   });
 
 
@@ -72,99 +72,100 @@ export const CreateAccount = () => {
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        textAlign: "center",
-        fontWeight: "bold",
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        textAlign: 'center',
+        fontWeight: 'bold',
       }}
     >
       <Paper
         elevation={18}
         sx={{
+          marginTop: '5%',
           padding: 6,
           paddingTop: 4,
         }}
       >
         <form onSubmit={handleSubmit}>
-          <Typography marginBottom={2} variant="h3" component="h1">
+          <Typography marginBottom={2} variant='h3' component='h1'>
             Create your Account
           </Typography>
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="name"
-            label="Name"
-            name="name"
-            autoComplete="off"
+            id='name'
+            label='Name'
+            name='name'
+            autoComplete='off'
             autoFocus
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
           <DatePicker
             isRequired
-            sx={{ width: "100%", marginBottom: 2, marginTop: 2 }}
-            label="Birth date"
-            format="DD/MM/YYYY"
+            sx={{ width: '100%', marginBottom: 2, marginTop: 2 }}
+            label='Birth date'
+            format='DD/MM/YYYY'
             value={adapter.date(formData.birthDate)}
             onChange={(deadline) =>
               setFormData({ ...formData, birthDate: deadline })}
           />
           <Box>
-            <FormControl fullWidth required margin="normal">
-              <InputLabel id="sex">Sex</InputLabel>
+            <FormControl fullWidth required margin='normal'>
+              <InputLabel id='sex'>Sex</InputLabel>
               <Select
-                labelId="sex"
-                label="Sex"
-                id="sex"
+                labelId='sex'
+                label='Sex'
+                id='sex'
                 value={formData.sex || ''}
                 onChange={(e) =>
                   setFormData({ ...formData, sex: e.target.value })
                 }
               >
-                <MenuItem id={"Feminine"} value={"Feminine"}>
+                <MenuItem id={'Feminine'} value={'Feminine'}>
                   Feminine
                 </MenuItem>
-                <MenuItem id={"Masculine"} value={"Masculine"}>
+                <MenuItem id={'Masculine'} value={'Masculine'}>
                   Masculine
                 </MenuItem>
               </Select>
             </FormControl>
           </Box>
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            name="company"
-            label="Company"
-            id="company"
-            autoComplete="off"
+            name='company'
+            label='Company'
+            id='company'
+            autoComplete='off'
             onChange={(e) =>
               setFormData({ ...formData, company: e.target.value })
             }
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="off"
+            id='email'
+            label='Email'
+            name='email'
+            autoComplete='off'
             autoFocus
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
             }
           />
           <TextField
-            margin="normal"
+            margin='normal'
             required
             fullWidth
-            id="password"
-            label="Password"
-            name="password"
-            autoComplete="off"
+            id='password'
+            label='Password'
+            name='password'
+            autoComplete='off'
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
             }
@@ -172,12 +173,12 @@ export const CreateAccount = () => {
           <Card sx={{ paddingY: 2 }}>
             {formData.photo && (
               <Box 
-              display="flex" 
-              alignItems="center" 
-              justifyContent="center"
+              display='flex' 
+              alignItems='center' 
+              justifyContent='center'
               paddingY={2}>
               <Avatar 
-                alt="Profile pic" 
+                alt='Profile pic' 
                 src={formData.photo} 
                 sx={{ 
                   width: 150, 
@@ -188,23 +189,23 @@ export const CreateAccount = () => {
               />
             </Box>
             )}
-            <label htmlFor="upload-image">
-              <Button variant="contained" component="span">
+            <label htmlFor='upload-image'>
+              <Button variant='contained' component='span'>
                 Upload profile photo
               </Button>
               <input
-                id="upload-image"
+                id='upload-image'
                 required
                 hidden
-                accept="image/*"
-                type="file"
+                accept='image/*'
+                type='file'
                 onChange={(e) => handlePhotoChange(e.target.files[0])}
               />
             </label>
           </Card>
           <Button
-            type="submit"
-            variant="contained"
+            type='submit'
+            variant='contained'
             fullWidth
             sx={{
               marginTop: 4,

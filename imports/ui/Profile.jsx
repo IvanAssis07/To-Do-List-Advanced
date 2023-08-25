@@ -1,6 +1,6 @@
-import React, { useState} from "react";
-import { Meteor } from "meteor/meteor";
-import { useTracker } from "meteor/react-meteor-data";
+import React, { useState} from 'react';
+import { Meteor } from 'meteor/meteor';
+import { useTracker } from 'meteor/react-meteor-data';
 import {
   MenuItem,
   TextField,
@@ -13,11 +13,11 @@ import {
   InputLabel,
   Avatar,
   Card
-} from "@mui/material";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import CircularProgress from "@mui/material/CircularProgress";
-import { Navbar } from "./NavBar";
+} from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import CircularProgress from '@mui/material/CircularProgress';
+import { Navbar } from './NavBar';
 
 export const Profile = () => {
   const adapter = new AdapterDayjs();
@@ -27,23 +27,23 @@ export const Profile = () => {
   const [photoFile, setPhotoFile] = useState(null);
   
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    birthDate: "",
-    sex: "",
-    company: "",
-    photo: "",
-    password: "",
+    name: '',
+    email: '',
+    birthDate: '',
+    sex: '',
+    company: '',
+    photo: '',
+    password: '',
   });
 
   const [originalData, setOriginalData] = useState({
-    name: "",
-    email: "",
-    birthDate: "",
-    sex: "",
-    company: "",
-    photo: "",
-    password: "",
+    name: '',
+    email: '',
+    birthDate: '',
+    sex: '',
+    company: '',
+    photo: '',
+    password: '',
   });
 
   const handleCancelButtonClick = () => {
@@ -107,7 +107,7 @@ export const Profile = () => {
     setIsLoading(true);
 
     Meteor.call(
-      "users.update",
+      'users.update',
       Meteor.userId(),
       {
         name: formData.name,
@@ -132,53 +132,55 @@ export const Profile = () => {
     <>
       <Navbar />
       <Stack
-        direction="column"
+        direction='column'
         sx={{
-          display: "flex",
-          marginTop: "2%",
-          minHeight: "100vh",
-          textAlign: "center",
+          display: 'flex',
+          marginTop: '2%',
+          minHeight: '100vh',
+          textAlign: 'center',
         }}
       >
-        <Typography variant="h3">My Profile</Typography>
+        <Typography variant='h3'>My Profile</Typography>
         {isLoading ? (
           <Box
           sx={{
-            display: "flex",
-            marginTop: "10%",
-            justifyContent: "center",
+            display: 'flex',
+            marginTop: '10%',
+            justifyContent: 'center',
           }}
         >
           <CircularProgress />
         </Box>
         ) : (
-          <Box component="form" autoComplete="off">
-            <Box paddingX="20%">
+          <Box component='form' autoComplete='off'>
+            <Box paddingX='20%'>
               <Box 
-                display="flex" 
-                alignItems="center" 
-                justifyContent="center"
+                display='flex' 
+                alignItems='center' 
+                justifyContent='center'
                 paddingY={2}>
                 <Avatar 
-                  alt="Profile pic" 
+                  alt='Profile pic' 
                   src={formData.photo} 
                   sx={{ 
                     width: 150, 
-                    height: 150
+                    height: 150,
+                    border: 'solid',
+                    borderColor: '#1976d2'
                   }}
                 />
               </Box>
               <Box paddingY={1}>
-              <label htmlFor="upload-image">
-                <Button variant="contained" component="span">
+              <label htmlFor='upload-image'>
+                <Button variant='contained' component='span'>
                   Change profile photo
                 </Button>
                 <input
-                  id="upload-image"
+                  id='upload-image'
                   required
                   hidden
-                  accept="image/*"
-                  type="file"
+                  accept='image/*'
+                  type='file'
                   onChange={(e) => {
                     handlePhotoChange(e.target.files[0]);
                     setHideButtons(false);
@@ -187,13 +189,13 @@ export const Profile = () => {
               </label>
               </Box>
               <TextField
-              margin="normal"
+              margin='normal'
               required
               fullWidth
-              id="name"
-              label="Name"
-              name="name"
-              autoComplete="off"
+              id='name'
+              label='Name'
+              name='name'
+              autoComplete='off'
               value={formData.name || ''}
               autoFocus
               onChange={(e) => {
@@ -203,9 +205,9 @@ export const Profile = () => {
             />
             <DatePicker
               isRequired
-              sx={{ width: "100%", marginBottom: 2, marginTop: 2 }}
-              label="Birth date"
-              format="DD/MM/YYYY"
+              sx={{ width: '100%', marginBottom: 2, marginTop: 2 }}
+              label='Birth date'
+              format='DD/MM/YYYY'
               value={formData.birthDate}
               onChange={(deadline) => {
                 setHideButtons(false);
@@ -213,35 +215,35 @@ export const Profile = () => {
               }}
             />
             <Box>
-              <FormControl fullWidth required margin="normal">
-                <InputLabel id="sex">Sex</InputLabel>
+              <FormControl fullWidth required margin='normal'>
+                <InputLabel id='sex'>Sex</InputLabel>
                 <Select
-                  labelId="sex"
-                  label="Sex"
-                  id="sex"
+                  labelId='sex'
+                  label='Sex'
+                  id='sex'
                   value={formData.sex || ''}
                   onChange={(e) => {
                     setHideButtons(false);
                     setFormData({ ...formData, sex: e.target.value });
                   }}
                 >
-                  <MenuItem id={"Feminine"} value={"Feminine"}>
+                  <MenuItem id={'Feminine'} value={'Feminine'}>
                     Feminine
                   </MenuItem>
-                  <MenuItem id={"Masculine"} value={"Masculine"}>
+                  <MenuItem id={'Masculine'} value={'Masculine'}>
                     Masculine
                   </MenuItem>
                 </Select>
               </FormControl>
             </Box>
             <TextField
-              margin="normal"
+              margin='normal'
               required
               fullWidth
-              name="company"
-              label="Company"
-              id="company"
-              autoComplete="off"
+              name='company'
+              label='Company'
+              id='company'
+              autoComplete='off'
               value={formData.company || ''}
               onChange={(e) => {
                 setHideButtons(false);
@@ -249,13 +251,13 @@ export const Profile = () => {
               }}
             />
             <TextField
-              margin="normal"
+              margin='normal'
               required
               fullWidth
-              id="email"
-              label="Email"
-              name="email"
-              autoComplete="off"
+              id='email'
+              label='Email'
+              name='email'
+              autoComplete='off'
               autoFocus
               value={formData.email}
               onChange={(e) =>{
@@ -264,25 +266,25 @@ export const Profile = () => {
               }}
             />
             {/* <TextField
-              margin="normal"
+              margin='normal'
               required
               fullWidth
-              id="password"
-              label="Password"
-              name="password"
-              autoComplete="off"
+              id='password'
+              label='Password'
+              name='password'
+              autoComplete='off'
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
               }
             /> */}
             {(!hideButtons) && 
               <Box sx={{ marginTop: 2 }}>
-                <Button variant="contained" onClick={handleCancelButtonClick}>
+                <Button variant='contained' onClick={handleCancelButtonClick}>
                   Cancel
                 </Button>
                 <Button
                   sx={{ marginLeft: 4 }}
-                  variant="contained"
+                  variant='contained'
                   onClick={handleSaveButtonClick}
                 >
                   Edit

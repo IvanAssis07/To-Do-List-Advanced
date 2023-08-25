@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Meteor } from "meteor/meteor";
-import { TasksCollection } from "../db/TasksCollection";
-import { useTracker } from "meteor/react-meteor-data";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
+import { TasksCollection } from '../db/TasksCollection';
+import { useTracker } from 'meteor/react-meteor-data';
 import {
   Stack,
   TextField,
@@ -13,14 +13,14 @@ import {
   FormGroup,
   FormControlLabel,
   Checkbox,
-} from "@mui/material";
-import Select from "@mui/material/Select";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import CircularProgress from "@mui/material/CircularProgress";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
-import LockPersonIcon from "@mui/icons-material/LockPerson";
-import { Navbar } from "./NavBar";
+} from '@mui/material';
+import Select from '@mui/material/Select';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import CircularProgress from '@mui/material/CircularProgress';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockPersonIcon from '@mui/icons-material/LockPerson';
+import { Navbar } from './NavBar';
 
 export const TaskData = () => {
   const adapter = new AdapterDayjs();
@@ -30,27 +30,27 @@ export const TaskData = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [formData, setFormData] = useState({
-    taskName: "",
-    taskDescription: "",
-    taskStatus: "",
-    taskDeadline: "",
-    taskCreator: "",
-    taskPrivate: "",
+    taskName: '',
+    taskDescription: '',
+    taskStatus: '',
+    taskDeadline: '',
+    taskCreator: '',
+    taskPrivate: '',
   });
 
   const [originalData, setOriginalData] = useState({
-    taskName: "",
-    taskDescription: "",
-    taskStatus: "",
-    taskDeadline: "",
-    taskCreator: "",
-    taskPrivate: "",
+    taskName: '',
+    taskDescription: '',
+    taskStatus: '',
+    taskDeadline: '',
+    taskCreator: '',
+    taskPrivate: '',
   });
 
   const validTransitions = {
-    Cadastrada: ["Cadastrada", "Em Andamento"],
-    "Em Andamento": ["Em Andamento", "Concluída", "Cadastrada"],
-    Concluída: ["Concluída", "Cadastrada"],
+    Cadastrada: ['Cadastrada', 'Em Andamento'],
+    'Em Andamento': ['Em Andamento', 'Concluída', 'Cadastrada'],
+    Concluída: ['Concluída', 'Cadastrada'],
   };
 
   const availableStatusOptions = validTransitions[formData.taskStatus];
@@ -73,7 +73,7 @@ export const TaskData = () => {
       return;
     }
 
-    const handler = Meteor.subscribe("taskData", taskId);
+    const handler = Meteor.subscribe('taskData', taskId);
 
     if (handler.ready()) {
       const task = TasksCollection.findOne({ _id: taskId });
@@ -106,7 +106,7 @@ export const TaskData = () => {
     setIsLoading(true);
 
     Meteor.call(
-      "tasks.update",
+      'tasks.update',
       taskId,
       {
         name: formData.taskName,
@@ -132,49 +132,49 @@ export const TaskData = () => {
     <>
       <Navbar />
       <Stack
-        direction="column"
+        direction='column'
         sx={{
-          display: "flex",
-          marginTop: "5%",
-          minHeight: "100vh",
-          textAlign: "center",
+          display: 'flex',
+          marginTop: '5%',
+          minHeight: '100vh',
+          textAlign: 'center',
         }}
       >
-        <Typography variant="h3">Edit task</Typography>
+        <Typography variant='h3'>Edit task</Typography>
         {isLoading ? (
           <Box
             sx={{
-              display: "flex",
-              marginTop: "10%",
-              justifyContent: "center",
+              display: 'flex',
+              marginTop: '10%',
+              justifyContent: 'center',
             }}
           >
             <CircularProgress />
           </Box>
         ) : (
-          <Box component="form" autoComplete="off">
+          <Box component='form' autoComplete='off'>
             {edit ? (
-              <Box paddingX="30%">
+              <Box paddingX='30%'>
                 <TextField
                   autoFocus
-                  margin="normal"
+                  margin='normal'
                   fullWidth
-                  id="name"
+                  id='name'
                   defaultValue={formData.taskName}
-                  label="Name"
-                  name="name"
+                  label='Name'
+                  name='name'
                   disabled={!edit}
                   onChange={(e) =>
                     setFormData({ ...formData, taskName: e.target.value })
                   }
                 />
                 <TextField
-                  margin="normal"
+                  margin='normal'
                   fullWidth
-                  id="description"
+                  id='description'
                   defaultValue={formData.taskDescription}
-                  label="Description"
-                  name="taskDescription"
+                  label='Description'
+                  name='taskDescription'
                   disabled={!edit}
                   onChange={(e) =>
                     setFormData({
@@ -184,25 +184,25 @@ export const TaskData = () => {
                   }
                 />
                 <TextField
-                  margin="normal"
+                  margin='normal'
                   fullWidth
-                  id="creator"
+                  id='creator'
                   defaultValue={formData.taskCreator}
-                  label="Creator"
-                  name="creator"
+                  label='Creator'
+                  name='creator'
                   disabled={!edit}
                 />
                 <DatePicker
                   minDate={adapter.date()}
                   fullWidth
                   sx={{ 
-                    width: "100%", 
+                    width: '100%', 
                     marginBottom: 2, 
                     marginTop: 2 
                   }}
                   disabled={!edit}
-                  label="Deadline"
-                  format="DD/MM/YYYY"
+                  label='Deadline'
+                  format='DD/MM/YYYY'
                   value={adapter.date(formData.taskDeadline)}
                   onChange={(deadline) =>
                     setFormData({ ...formData, taskDeadline: deadline })
@@ -210,14 +210,14 @@ export const TaskData = () => {
                 />
                 <Box>
                   <Select
-                    id="status"
-                    label="status"
+                    id='status'
+                    label='status'
                     onChange={(e) => handleStatusTransitions(e.target.value)}
                     disabled={!edit}
                     value={formData.taskStatus}
                     sx={{
-                      width: "70%",
-                      marginRight: "5%",
+                      width: '70%',
+                      marginRight: '5%',
                     }}
                   >
                     {availableStatusOptions.map((status, index) => (
@@ -231,8 +231,8 @@ export const TaskData = () => {
                     ))}
                   </Select>
                   <Button
-                    variant="outlined"
-                    sx={{ width: "25%", height: "100%" }}
+                    variant='outlined'
+                    sx={{ width: '25%', height: '100%' }}
                     onClick={() =>
                       handleStatusTransitions(originalData.taskStatus)
                     }
@@ -242,7 +242,7 @@ export const TaskData = () => {
                 </Box>
                 <FormGroup
                   sx={{
-                    alignItems: "center",
+                    alignItems: 'center',
                     marginBottom: 2,
                     marginTop: 2,
                   }}
@@ -265,12 +265,12 @@ export const TaskData = () => {
                   />
                 </FormGroup>
                 <Box sx={{ marginTop: 2 }}>
-                  <Button variant="contained" onClick={handleCancelButtonClick}>
+                  <Button variant='contained' onClick={handleCancelButtonClick}>
                     Cancel
                   </Button>
                   <Button
                     sx={{ marginLeft: 4 }}
-                    variant="contained"
+                    variant='contained'
                     onClick={handleSaveButtonClick}
                   >
                     Save
@@ -279,23 +279,23 @@ export const TaskData = () => {
               </Box>
             ) : (
               <>
-                <Typography marginY={2} variant="subtitle1">
+                <Typography marginY={2} variant='subtitle1'>
                   Name: {originalData.taskName}
                 </Typography>
-                <Typography marginY={2} variant="subtitle1">
+                <Typography marginY={2} variant='subtitle1'>
                   Description: {originalData.taskDescription}
                 </Typography>
-                <Typography marginY={2} variant="subtitle1">
+                <Typography marginY={2} variant='subtitle1'>
                   Creator: {originalData.taskCreator}
                 </Typography>
-                <Typography marginY={2} variant="subtitle1">
+                <Typography marginY={2} variant='subtitle1'>
                   Deadline: {originalData.taskDeadline.toLocaleString()}
                 </Typography>
-                <Typography marginY={2} variant="subtitle1">
+                <Typography marginY={2} variant='subtitle1'>
                   Status: {originalData.taskStatus}
                 </Typography>
                 {originalData.taskCreator === Meteor.userId() && (
-                  <Button variant="contained" onClick={handleEditButtonClick}>
+                  <Button variant='contained' onClick={handleEditButtonClick}>
                     Edit
                   </Button>
                 )}

@@ -27,11 +27,11 @@ export const LoginForm = () => {
       <Paper 
         elevation={24} 
         sx={{
-          padding: 8,
+          padding: 6,
         }}
       >
         <form onSubmit={handleSubmit}>
-          <Typography variant='h6' component='h1'>
+          <Typography variant='h4' component='h1' paddingBottom={1}>
               Login
           </Typography>
           <Box>

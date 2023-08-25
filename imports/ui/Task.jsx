@@ -1,6 +1,6 @@
-import React from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { Meteor } from "meteor/meteor";
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
 import {
   ListItem,
   ListItemText,
@@ -9,14 +9,14 @@ import {
   Avatar,
   Divider,
   Button,
-} from "@mui/material";
-import TaskIcon from "@mui/icons-material/Task";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditNoteIcon from "@mui/icons-material/EditNote";
+} from '@mui/material';
+import TaskIcon from '@mui/icons-material/Task';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 
 export const Task = ({ task }) => {
-  const deleteTask = ({ _id }) => Meteor.call("tasks.remove", _id, task.userId);
+  const deleteTask = ({ _id }) => Meteor.call('tasks.remove', _id, task.userId);
 
   return (
     <>
@@ -39,9 +39,9 @@ export const Task = ({ task }) => {
         }
         <RouterLink to={`/TaskData/${task._id}`}>
           <Button
-            variant="outlined"
-            aria-label="edit"
-            edge="end"
+            variant='outlined'
+            aria-label='edit'
+            edge='end'
             sx={{ borderRadius: 8 }}
           >
             <EditNoteIcon />
@@ -49,17 +49,17 @@ export const Task = ({ task }) => {
         </RouterLink>
         {Meteor.userId() === task.userId && (
           <Button
-            variant="outlined"
-            aria-label="delete"
-            edge="end"
-            sx={{ marginLeft: "2%", borderRadius: 8 }}
+            variant='outlined'
+            aria-label='delete'
+            edge='end'
+            sx={{ marginLeft: '2%', borderRadius: 8 }}
             onClick={() => deleteTask(task)}
           >
             <DeleteIcon />
           </Button>
         )}
       </ListItem>
-      <Divider variant="middle" />
+      <Divider variant='middle' />
     </>
   );
 };

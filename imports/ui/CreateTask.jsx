@@ -22,14 +22,13 @@ export const CreateTask = () => {
   const adapter = new AdapterDayjs();
 
   const [formData, setFormData] = useState({
-    taskName: "",
-    taskDescription: "",
+    taskName: '',
+    taskDescription: '',
     taskDeadline: adapter.date(),
     taskPrivate: false
   })
 
   const handleSubmit = e => {
-    try {
       e.preventDefault();
   
       Meteor.call('tasks.insert', {
@@ -37,12 +36,13 @@ export const CreateTask = () => {
         description: formData.taskDescription,
         deadline: formData.taskDeadline.toDate(),
         private: formData.taskPrivate
+      }, (error) => {
+        if (error) {
+          console.log(error.message);
+        } else {
+          navigate('/');
+        }
       });
-  
-      navigate('/');
-    } catch (error) {
-      window.alert(error.message)
-    }
   };
 
   return (
@@ -85,7 +85,7 @@ export const CreateTask = () => {
             <DatePicker
               minDate={adapter.date()}
               require
-              format="DD/MM/YYYY"
+              format='DD/MM/YYYY'
               fullWidth
               sx={{ width: '100%', marginBottom: 2, marginTop: 2 }}
               label='Deadline'
