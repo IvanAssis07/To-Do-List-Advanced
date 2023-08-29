@@ -40,7 +40,7 @@ export const AppDrawer = () => {
       const user = Meteor.user();
 
       setUserData({
-        name: user.name,
+        name: user.profile.name,
         email:user.emails[0].address,
         photo: user.profile.photo
       })

@@ -9,6 +9,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { CreateTask } from '../imports/ui/CreateTask';
 import { CreateAccount } from '../imports/ui/CreateAccount';
 import { Profile } from '../imports/ui/Profile';
+import { Home } from '../imports/ui/Home';
 
 Meteor.startup(() => {
   const root = createRoot(document.getElementById('react-target'));
@@ -21,8 +22,9 @@ Meteor.startup(() => {
           <Route path='/TaskData/:taskId' element={<TaskData />} />
           <Route path='/Tasks' />
           <Route path='/CreateTask' element={<CreateTask />} />
-          <Route path='/CreateAccount' element={<CreateAccount />}/>
-          <Route path='/Profile' element={<Profile />}/>
+          <Route path='/CreateAccount' element={<CreateAccount />} />
+          <Route path='/Profile' element={<Profile />} />
+          <Route path='/Home' element={<Home />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>

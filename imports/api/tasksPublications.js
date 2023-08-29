@@ -1,26 +1,23 @@
-import { Meteor } from 'meteor/meteor';
-import { TasksCollection } from '../db/TasksCollection';
-import { check } from 'meteor/check';
+import { Meteor } from "meteor/meteor";
+import { TasksCollection } from "../db/TasksCollection";
+import { check } from "meteor/check";
 
-Meteor.publish('tasks', function publishTasks() {
+Meteor.publish("tasks", function publishTasks() {
   if (!this.userId) {
-    throw new Meteor.Error('Not Authorized');
+    throw new Meteor.Error("Not Authorized");
   }
 
   return TasksCollection.find({
-    $or: [
-      { private: false },
-      { private: true, userId: this.userId },
-    ],
-  })
+    $or: [{ private: false }, { private: true, userId: this.userId }],
+  });
 });
 
-Meteor.publish('taskData', function (taskId) {
+Meteor.publish("taskData", function (taskId) {
   check(taskId, String);
 
   if (!this.userId) {
-    throw new Meteor.Error('Not Authorized');
+    throw new Meteor.Error("Not Authorized");
   }
-  
-  return TasksCollection.find({_id: taskId});
+
+  return TasksCollection.find({ _id: taskId });
 });

@@ -77,7 +77,6 @@ export const Profile = () => {
 
     if (handler.ready()) {
       const user = Meteor.user();
-      console.log(user);
 
       if (user) {
         setFormData({
