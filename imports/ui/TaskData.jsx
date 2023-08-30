@@ -139,6 +139,7 @@ export const TaskData = () => {
             marginTop: "5%",
             minHeight: "100vh",
             textAlign: "center",
+            marginX: '10%'
           }}
         >
           <Typography variant="h3">Edit task</Typography>

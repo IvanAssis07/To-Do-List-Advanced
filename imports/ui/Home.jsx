@@ -25,22 +25,22 @@ export const Home = () => {
   const [tasksCompleted, setTasksCompleted] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const getTasksCounts = (tasks) => {
-    let tasksTotal = 0;
-    let tasksInProgress = 0;
-    let tasksCompleted = 0;
+  const tasksCounts = {
+    total: 0,
+    inProgress: 0,
+    completed:0
+  }
 
+  const getTasksCounts = (tasks, tasksCounts) => {
     tasks.forEach((task) => {
-      tasksTotal += 1;
+      tasksCounts.total += 1;
 
       if (task.status === "Em Andamento") {
-        tasksInProgress += 1;
+        tasksCounts.inProgress += 1;
       } else if (task.status === "Concluída") {
-        tasksCompleted += 1;
+        tasksCounts.completed += 1;
       }
     });
-
-    return { tasksTotal, tasksInProgress, tasksCompleted };
   };
 
   useTracker(() => {
@@ -54,11 +54,10 @@ export const Home = () => {
       const tasks = TasksCollection.find().fetch();
 
       if (tasks) {
-        const { tasksTotal, tasksInProgress, tasksCompleted } =
-          getTasksCounts(tasks);
-        setTasksTotal(tasksTotal);
-        setTasksInProgress(tasksInProgress);
-        setTasksCompleted(tasksCompleted);
+        getTasksCounts(tasks, tasksCounts);
+        setTasksTotal(tasksCounts.total);
+        setTasksInProgress(tasksCounts.inProgress);
+        setTasksCompleted(tasksCounts.completed);
         setIsLoading(false);
       }
     }
@@ -91,7 +90,7 @@ export const Home = () => {
           </Box>
           <Grid
             container
-            spacing={8}
+            spacing={4}
             sx={{
               textAlign: "center",
               justifyContent: "center",
