@@ -23,11 +23,13 @@ import LockPersonIcon from "@mui/icons-material/LockPerson";
 import { Navbar } from "./NavBar";
 import { Loading } from './Loading';
 import { MessageModal } from "./MessageModal";
+import { EditButtons } from "./EditButtons";
 
 export const TaskData = () => {
   const adapter = new AdapterDayjs();
   const { taskId } = useParams();
 
+  const [allowUserEdit, setAllowUserEdit] = useState(false);
   const [edit, setEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [errorState, setErrorState] = useState(false);
@@ -103,6 +105,10 @@ export const TaskData = () => {
           taskPrivate: task.private,
           taskCreatorId: task.creatorId
         });
+
+        if (Meteor.userId() === task.creatorId) {
+          setAllowUserEdit(true);
+        }
       }
 
       setIsLoading(false);
@@ -266,33 +272,14 @@ export const TaskData = () => {
                   />
                 </FormGroup>
               </Box>
-              {!edit ? (
-                <Button
-                  sx={{ marginTop: 2 }}
-                  variant="contained"
-                  onClick={handleEditButtonClick}
-                >
-                  Edit
-                </Button>
-              ) : (
-                <>
-                  <Box sx={{ marginTop: 2 }}>
-                    <Button
-                      variant="contained"
-                      onClick={handleCancelButtonClick}
-                    >
-                      Cancel
-                    </Button>
-                    <Button
-                      sx={{ marginLeft: 4 }}
-                      variant="contained"
-                      onClick={handleSaveButtonClick}
-                    >
-                      Save
-                    </Button>
-                  </Box>
-                </>
-              )}
+              {allowUserEdit && 
+                <EditButtons
+                  edit={edit}
+                  handleEditButtonClick={() => handleEditButtonClick()}
+                  handleSaveButtonClick={() => handleSaveButtonClick()}
+                  handleCancelButtonClick={() => handleCancelButtonClick()}
+                />
+              }
             </Box>
           )}
         </Stack>
