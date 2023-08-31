@@ -15,7 +15,7 @@ const taskSchema = new SimpleSchema({
   },
   status: {
     type: String,
-    defaultValue: 'Cadastrada'
+    defaultValue: 'Registered'
   },
   creatorId: {
     type: String,

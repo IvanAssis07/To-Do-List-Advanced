@@ -55,9 +55,9 @@ export const TaskData = () => {
   });
 
   const validTransitions = {
-    Cadastrada: ["Cadastrada", "Em Andamento"],
-    "Em Andamento": ["Em Andamento", "Concluída", "Cadastrada"],
-    Concluída: ["Concluída", "Cadastrada"],
+    "Registered": ["Registered", "In progress"],
+    "In progress": ["In progress", "Completed", "Registered"],
+    "Completed": ["Completed", "Registered"],
   };
 
   const availableStatusOptions = validTransitions[formData.taskStatus];

@@ -34,9 +34,9 @@ export const Home = () => {
     tasks.forEach((task) => {
       tasksCounts.total += 1;
 
-      if (task.status === "Em Andamento") {
+      if (task.status === "In progress") {
         tasksCounts.inProgress += 1;
-      } else if (task.status === "Concluída") {
+      } else if (task.status === "Completed") {
         tasksCounts.completed += 1;
       }
     });
