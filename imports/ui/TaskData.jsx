@@ -18,10 +18,10 @@ import {
 import Select from "@mui/material/Select";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import CircularProgress from "@mui/material/CircularProgress";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import { Navbar } from "./NavBar";
+import { Loading } from './Loading';
 
 export const TaskData = () => {
   const adapter = new AdapterDayjs();
@@ -144,15 +144,7 @@ export const TaskData = () => {
         >
           <Typography variant="h3">Edit task</Typography>
           {isLoading ? (
-            <Box
-              sx={{
-                display: "flex",
-                marginTop: "10%",
-                justifyContent: "center",
-              }}
-            >
-              <CircularProgress />
-            </Box>
+            <Loading />
           ) : (
             <Box component="form" autoComplete="off">
               <TextField

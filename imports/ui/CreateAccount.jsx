@@ -15,13 +15,18 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
+import { MessageModal } from "./MessageModal";
+import { Loading } from './Loading';
 
 export const CreateAccount = () => {
   const adapter = new AdapterDayjs();
   const navigate = useNavigate();
 
+  const [missingPhotoMsg, setMissingPhotoMsg] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(false);
+  const [errorState, setErrorState] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -34,6 +39,13 @@ export const CreateAccount = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoading(true);
+
+    if (formData.photo === '') {
+      setIsLoading(false);
+      setMissingPhotoMsg(true);
+      return;
+    }
 
     Meteor.call(
       "users.insert",
@@ -45,12 +57,13 @@ export const CreateAccount = () => {
         company: formData.company,
         photo: formData.photo,
         password: formData.password,
-      },
-      (error) => {
+      }, (error) => {
         if (error) {
-          console.log(error.message);
+          setIsLoading(false);
+          setErrorState(true);
         } else {
-          navigate("/Home");
+          setIsLoading(false);
+          setSuccessMsg(true);
         }
       }
     );
@@ -82,6 +95,9 @@ export const CreateAccount = () => {
         fontWeight: "bold",
       }}
     >
+      {isLoading && 
+        <Loading />
+      }
       <Paper
         elevation={24}
         sx={{
@@ -165,6 +181,7 @@ export const CreateAccount = () => {
             required
             fullWidth
             id="password"
+            type="password"
             label="Password"
             name="password"
             autoComplete="off"
@@ -198,7 +215,6 @@ export const CreateAccount = () => {
               </Button>
               <input
                 id="upload-image"
-                required
                 hidden
                 accept="image/*"
                 type="file"
@@ -218,6 +234,36 @@ export const CreateAccount = () => {
           </Button>
         </form>
       </Paper>
+      {missingPhotoMsg && 
+        <MessageModal
+          title="Atenção"
+          message='A foto é obrigatória.'
+          hasCancelButton={false}
+          handleConfirmationButton={() => {
+            setMissingPhotoMsg(false);
+          }}          
+        />
+      }
+      {errorState && 
+        <MessageModal
+          title="Atenção"
+          message='Houve um erro na criação da conta, tente novamente.'
+          hasCancelButton={false}
+          handleConfirmationButton={() => {
+            setErrorState(false);
+          }}          
+        />
+      }
+      {successMsg &&
+        <MessageModal
+          title="Parabéns"
+          message='Conta criada com sucesso.'
+          hasCancelButton={false}
+          handleConfirmationButton={() => {
+            navigate("/");
+          }}          
+        />
+      }
     </Box>
   );
 };

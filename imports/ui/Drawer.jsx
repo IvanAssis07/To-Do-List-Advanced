@@ -14,11 +14,10 @@ import {
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import React, { useState } from 'react';
-import CircularProgress from '@mui/material/CircularProgress';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import { RouterLink, useNavigate } from 'react-router-dom';
+import { RouterLink } from 'react-router-dom';
 
 export const AppDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

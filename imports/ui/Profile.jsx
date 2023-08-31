@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Navbar } from "./NavBar";
 import { Loading } from "./Loading";
 
@@ -25,7 +24,6 @@ export const Profile = () => {
 
   const [hideButtons, setHideButtons] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-  const [photoFile, setPhotoFile] = useState(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -58,7 +56,6 @@ export const Profile = () => {
 
       reader.onload = (e) => {
         const base64 = e.target.result;
-        setPhotoFile(file);
         setFormData({ ...formData, photo: base64 });
       };
 
@@ -130,15 +127,7 @@ export const Profile = () => {
 
   if (isLoading) {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          marginTop: "10%",
-          justifyContent: "center",
-        }}
-      >
-        <CircularProgress />
-      </Box>
+      <Loading />
     );
   }
 

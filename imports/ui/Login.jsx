@@ -3,23 +3,23 @@ import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button, TextField, Paper, Link } from "@mui/material";
-import { Link as RouterLink } from "react-router-dom";
-import { AlertModal } from "./AlertModal";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { MessageModal } from "./MessageModal";
 
-export const LoginForm = () => {
+export const Login = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errorState, setErrorState] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     Meteor.loginWithPassword(userName, password, (error) => {
       if (error) {
-        console.log(error.reason);
         setErrorState(true);
       } else {
-        <Link to="/Home" />;
+        navigate("/Home");
       }
     });
   };
@@ -85,15 +85,16 @@ export const LoginForm = () => {
           <Link component={RouterLink} to="/CreateAccount">
             Don't have an account? Sign up
           </Link>
-          {errorState && 
-            <AlertModal
+          {errorState && (
+            <MessageModal
               title="Atenção"
-              message='Email ou senha incorretos'
+              message="Email ou senha incorretos"
+              hasCancelButton={false}
               handleConfirmationButton={() => {
                 setErrorState(false);
-              }}          
+              }}
             />
-          }
+          )}
         </form>
       </Paper>
     </Box>

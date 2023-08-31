@@ -9,7 +9,6 @@ import {
   Grid,
   Typography,
   Container,
-  Avatar,
 } from "@mui/material";
 import { Navbar } from "./NavBar";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
@@ -45,6 +44,7 @@ export const Home = () => {
 
   useTracker(() => {
     if (!Meteor.user()) {
+      console.log(Meteor.user());
       return;
     }
 
@@ -83,7 +83,7 @@ export const Home = () => {
               startIcon={<FormatListBulletedIcon />}
               size="large"
               component={RouterLink}
-              to='/'
+              to='/TasksList'
             >
               Task List
             </Button>

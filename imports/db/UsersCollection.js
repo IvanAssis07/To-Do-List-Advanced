@@ -23,7 +23,7 @@ Schema.UserProfile = new SimpleSchema({
   },
   photo: {
     type: String,
-    optional: true,
+    optional: false,
   }
 })
 

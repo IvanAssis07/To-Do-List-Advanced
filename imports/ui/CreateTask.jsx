@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Meteor } from 'meteor/meteor';
-import { Link as RouterLink, useParams, useNavigate } from 'react-router-dom'; 
+import { Link as RouterLink, useNavigate } from 'react-router-dom'; 
 import {
   Stack,
   TextField,
@@ -16,11 +16,16 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Navbar } from './NavBar';
+import { Loading } from './Loading';
+import { MessageModal } from './MessageModal'
 
 export const CreateTask = () => {
   const navigate = useNavigate();
   const adapter = new AdapterDayjs();
 
+  const [successMsg, setSuccessMsg] = useState(false);
+  const [errorState, setErrorState] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     taskName: '',
     taskDescription: '',
@@ -30,6 +35,7 @@ export const CreateTask = () => {
 
   const handleSubmit = e => {
       e.preventDefault();
+      setIsLoading(true);
   
       Meteor.call('tasks.insert', {
         name: formData.taskName,
@@ -38,9 +44,12 @@ export const CreateTask = () => {
         private: formData.taskPrivate
       }, (error) => {
         if (error) {
-          console.log(error.message);
+          setIsLoading(false);
+          setErrorState(true);
         } else {
-          navigate('/');
+          setIsLoading(false);
+          setSuccessMsg(true);
+          return;
         }
       });
   };
@@ -114,7 +123,7 @@ export const CreateTask = () => {
               />
             </FormGroup>
             <Box sx={{ marginTop: 2 }}>
-              <Button variant='contained' component={RouterLink} to='/'>
+              <Button variant='contained' component={RouterLink} to='/TasksList'>
                 Cancel
               </Button>
               <Button
@@ -127,6 +136,29 @@ export const CreateTask = () => {
           </Box>
         </Box>
       </Stack>
+      {isLoading && 
+        <Loading />
+      }
+      {errorState && 
+        <MessageModal
+          title="Atenção"
+          message='Houve um erro na criação da tarefa, tente novamente'
+          hasCancelButton={false}
+          handleConfirmationButton={() => {
+            setErrorState(false);
+          }}          
+        />
+      }
+      {successMsg &&
+        <MessageModal
+          title="Parabéns"
+          message='Tarefa criada com sucesso.'
+          hasCancelButton={false}
+          handleConfirmationButton={() => {
+            navigate("/TasksList");
+          }}          
+        />
+      }
     </>
   );
 };

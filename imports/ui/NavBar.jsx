@@ -35,7 +35,7 @@ export const Navbar = () => {
           variant='h6' 
           component='div'
           sx={{ flexGrow: 1}}>
-          To do App
+          To do TasksList
         </Typography>
         <Button color='inherit' variant='outlined' onClick={handleLogout}>Logout</Button>
       </Toolbar>

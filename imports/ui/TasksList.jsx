@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { Meteor } from "meteor/meteor";
 import { useTracker } from "meteor/react-meteor-data";
-import { LoginForm } from "./LoginForm";
+import { Login } from "./Login";
 import { Task } from "./Task";
 import { Navbar } from "./NavBar";
 import { List, Button, Stack, Box, Container } from "@mui/material";
 import { TasksCollection } from "../db/TasksCollection";
 import AddIcon from "@mui/icons-material/Add";
-import CircularProgress from "@mui/material/CircularProgress";
 import { Link as RouterLink } from "react-router-dom";
+import { Loading } from './Loading';
 
-export const App = () => {
+export const TasksList = () => {
   const user = useTracker(() => Meteor.user(), []);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -62,15 +62,7 @@ export const App = () => {
               </Box>
 
               {isLoading && (
-                <Box
-                  sx={{
-                    display: "flex",
-                    marginTop: "10%",
-                    justifyContent: "center",
-                  }}
-                >
-                  <CircularProgress />
-                </Box>
+                <Loading />
               )}
 
               <Box marginTop={5}>
@@ -84,7 +76,7 @@ export const App = () => {
           </Container>
         </>
       ) : (
-        <LoginForm />
+        <Login />
       )}
     </>
   );
