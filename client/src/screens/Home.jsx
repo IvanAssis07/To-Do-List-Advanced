@@ -10,13 +10,13 @@ import {
   Typography,
   Container,
 } from "@mui/material";
-import { Navbar } from "./NavBar";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import AutorenewIcon from "@mui/icons-material/Autorenew";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
-import { TasksCollection } from "../db/TasksCollection";
-import { Loading } from "./Loading";
+import { Navbar } from "../components/NavBar";
+import { TasksCollection } from "../../../api/domains/tasks/TasksCollection";
+import { Loading } from "../components/Loading";
 
 export const Home = () => {
   const [tasksTotal, setTasksTotal] = useState("");

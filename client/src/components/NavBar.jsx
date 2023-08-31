@@ -1,9 +1,9 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Meteor } from 'meteor/meteor';
 import { AppBar, Toolbar, IconButton, Typography, Button } from '@mui/material';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import { AppDrawer } from './Drawer';
-import { useNavigate } from 'react-router-dom';
 
 export const Navbar = () => {
   const navigate = useNavigate();

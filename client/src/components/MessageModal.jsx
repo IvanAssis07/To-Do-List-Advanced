@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Button,
   Dialog,
@@ -60,11 +60,7 @@ export const MessageModal = ({
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ paddingBottom: 2, margin: "0 auto" }}>
-            <Button
-              onClick={() => handleCancelButton()}
-            >
-              Cancel
-            </Button>
+            <Button onClick={() => handleCancelButton()}>Cancel</Button>
             <Button
               variant="outlined"
               onClick={() => handleConfirmationButton()}

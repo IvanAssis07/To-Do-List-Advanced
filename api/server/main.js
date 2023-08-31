@@ -1,7 +1,7 @@
-import '../imports/api/tasksMethods';
-import '../imports/api/tasksPublications';
-import '../imports/api/usersMethods';
-import '../imports/api/usersPublications';
+import '../domains/tasks/tasksMethods';
+import '../domains/tasks/tasksPublications';
+import '../domains/users/usersMethods';
+import '../domains/users/usersPublications';
 
 // const insertTask = (taskName, user) => {
 //   TasksCollection.insert({

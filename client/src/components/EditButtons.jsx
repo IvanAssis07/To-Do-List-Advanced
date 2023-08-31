@@ -1,10 +1,12 @@
-
 import React from "react";
-import { 
-  Box,
-  Button,
- } from "@mui/material";
-export const EditButtons = ({edit, handleEditButtonClick, handleCancelButtonClick, handleSaveButtonClick}) => {
+import { Box, Button } from "@mui/material";
+
+export const EditButtons = ({
+  edit,
+  handleEditButtonClick,
+  handleCancelButtonClick,
+  handleSaveButtonClick,
+}) => {
   return (
     <>
       {!edit ? (
@@ -35,5 +37,5 @@ export const EditButtons = ({edit, handleEditButtonClick, handleCancelButtonClic
         </>
       )}
     </>
-  )
-}
+  );
+};

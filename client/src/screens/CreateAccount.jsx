@@ -16,8 +16,8 @@ import {
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useNavigate } from "react-router-dom";
-import { MessageModal } from "./MessageModal";
-import { Loading } from './Loading';
+import { MessageModal } from "../components/MessageModal";
+import { Loading } from '../components/Loading';
 
 export const CreateAccount = () => {
   const adapter = new AdapterDayjs();

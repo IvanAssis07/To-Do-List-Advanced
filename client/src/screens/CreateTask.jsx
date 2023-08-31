@@ -15,8 +15,8 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
-import { Navbar } from './NavBar';
-import { MessageModal } from './MessageModal';
+import { Navbar } from '../components/NavBar';
+import { MessageModal } from '../components/MessageModal';
 
 export const CreateTask = () => {
   const navigate = useNavigate();

@@ -16,9 +16,9 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Navbar } from "./NavBar";
-import { Loading } from "./Loading";
-import { MessageModal } from "./MessageModal";
+import { Navbar } from "../components/NavBar";
+import { Loading } from "../components/Loading";
+import { MessageModal } from "../components/MessageModal";
 
 export const Profile = () => {
   const adapter = new AdapterDayjs();

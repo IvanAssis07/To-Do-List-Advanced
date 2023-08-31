@@ -1,6 +1,6 @@
 import { Meteor } from "meteor/meteor";
-import { TasksCollection } from "../db/TasksCollection";
 import { check } from "meteor/check";
+import { TasksCollection } from "./TasksCollection";
 
 Meteor.publish("tasks", function publishTasks() {
   if (!this.userId) {

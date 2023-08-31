@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button, TextField, Paper, Link } from "@mui/material";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { MessageModal } from "./MessageModal";
+import { MessageModal } from "../components/MessageModal";
 
 export const Login = () => {
   const [userName, setUserName] = useState("");

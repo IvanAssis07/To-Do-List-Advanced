@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Meteor } from "meteor/meteor";
-import { TasksCollection } from "../db/TasksCollection";
+import { TasksCollection } from "../../../api/domains/tasks/TasksCollection";
 import { useTracker } from "meteor/react-meteor-data";
 import {
   Stack,
@@ -20,10 +20,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
-import { Navbar } from "./NavBar";
-import { Loading } from './Loading';
-import { MessageModal } from "./MessageModal";
-import { EditButtons } from "./EditButtons";
+import { Navbar } from "../components/NavBar";
+import { Loading } from '../components/Loading';
+import { MessageModal } from "../components/MessageModal";
+import { EditButtons } from "../components/EditButtons";
 
 export const TaskData = () => {
   const adapter = new AdapterDayjs();

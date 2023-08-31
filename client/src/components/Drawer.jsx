@@ -1,3 +1,6 @@
+import { Meteor } from 'meteor/meteor';
+import { useTracker } from 'meteor/react-meteor-data';
+import React, { useState } from 'react';
 import {
   Box,
   Drawer,
@@ -11,9 +14,6 @@ import {
   Divider,
   ListItemButton,
 } from '@mui/material';
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
-import React, { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
