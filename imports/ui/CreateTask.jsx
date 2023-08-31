@@ -16,8 +16,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { Navbar } from './NavBar';
-import { Loading } from './Loading';
-import { MessageModal } from './MessageModal'
+import { MessageModal } from './MessageModal';
 
 export const CreateTask = () => {
   const navigate = useNavigate();
@@ -25,7 +24,6 @@ export const CreateTask = () => {
 
   const [successMsg, setSuccessMsg] = useState(false);
   const [errorState, setErrorState] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     taskName: '',
     taskDescription: '',
@@ -35,7 +33,6 @@ export const CreateTask = () => {
 
   const handleSubmit = e => {
       e.preventDefault();
-      setIsLoading(true);
   
       Meteor.call('tasks.insert', {
         name: formData.taskName,
@@ -44,12 +41,9 @@ export const CreateTask = () => {
         private: formData.taskPrivate
       }, (error) => {
         if (error) {
-          setIsLoading(false);
           setErrorState(true);
         } else {
-          setIsLoading(false);
           setSuccessMsg(true);
-          return;
         }
       });
   };
@@ -136,13 +130,10 @@ export const CreateTask = () => {
           </Box>
         </Box>
       </Stack>
-      {isLoading && 
-        <Loading />
-      }
       {errorState && 
         <MessageModal
           title="Atenção"
-          message='Houve um erro na criação da tarefa, tente novamente'
+          message='Houve um erro na criação da tarefa, tente novamente.'
           hasCancelButton={false}
           handleConfirmationButton={() => {
             setErrorState(false);

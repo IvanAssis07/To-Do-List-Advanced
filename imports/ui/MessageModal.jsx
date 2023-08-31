@@ -13,6 +13,7 @@ export const MessageModal = ({
   message,
   hasCancelButton,
   handleConfirmationButton,
+  handleCancelButton,
 }) => {
   if (!hasCancelButton) {
     return (
@@ -60,7 +61,7 @@ export const MessageModal = ({
           </DialogContent>
           <DialogActions sx={{ paddingBottom: 2, margin: "0 auto" }}>
             <Button
-              onClick={() => handleConfirmationButton()}
+              onClick={() => handleCancelButton()}
             >
               Cancel
             </Button>

@@ -44,7 +44,6 @@ export const Home = () => {
 
   useTracker(() => {
     if (!Meteor.user()) {
-      console.log(Meteor.user());
       return;
     }
 

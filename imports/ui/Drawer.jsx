@@ -106,7 +106,7 @@ export const AppDrawer = () => {
               </ListItem>
             </ListItemButton>
             <ListItem>
-              <ListItemButton component={RouterLink} to='/'>
+              <ListItemButton component={RouterLink} to='/TasksList'>
                 <ListItemIcon>
                   <PlaylistAddCheckIcon fontSize='large' />
                 </ListItemIcon>
