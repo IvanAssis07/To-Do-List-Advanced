@@ -5,29 +5,22 @@ import { TasksCollection } from "../db/TasksCollection";
 Meteor.methods({
   "tasks.insert"(taskData) {
     try {
-      if (!this.userId) {
-        throw new Meteor.Error("Not authorized.");
-      }
-
       TasksCollection.insert({
         name: taskData.name,
         description: taskData.description,
         deadline: taskData.deadline,
         private: taskData.private,
+        creatorName: taskData.creatorName
       });
     } catch (error) {
       throw new Meteor.Error(("Validation error:", error.message));
     }
   },
-  "tasks.remove"(taskId, taskUserId) {
+  "tasks.remove"(taskId, taskCreatorId) {
     try {
       check(taskId, String);
 
-      if (!this.userId) {
-        throw new Meteor.Error("Not authorized.");
-      }
-
-      if (taskUserId !== this.userId) {
+      if (taskCreatorId !== this.userId) {
         throw new Meteor.Error("Not authorized.");
       }
 
@@ -40,21 +33,8 @@ Meteor.methods({
     try {
       check(taskId, String);
 
-      if (!this.userId) {
-        throw new Meteor.Error("Not Authorized");
-      }
-
-      if (taskData.userId !== this.userId) {
+      if (taskData.creatorId !== this.userId) {
         throw new Meteor.Error("Not authorized.");
-      }
-
-      const task = TasksCollection.findOne({
-        _id: taskId,
-        userId: this.userId,
-      });
-
-      if (!task) {
-        throw new Meteor.Error("Not found.");
       }
 
       TasksCollection.update(taskId, {
@@ -67,6 +47,7 @@ Meteor.methods({
         },
       });
     } catch (error) {
+      console.log(error.message);
       throw new Meteor.Error(error.message);
     }
   },

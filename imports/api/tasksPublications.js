@@ -8,7 +8,7 @@ Meteor.publish("tasks", function publishTasks() {
   }
 
   return TasksCollection.find({
-    $or: [{ private: false }, { private: true, userId: this.userId }],
+    $or: [{ private: false }, { private: true, creatorId: this.userId }],
   });
 });
 

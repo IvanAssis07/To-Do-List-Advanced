@@ -17,12 +17,16 @@ const taskSchema = new SimpleSchema({
     type: String,
     defaultValue: 'Cadastrada'
   },
-  userId: {
+  creatorId: {
     type: String,
     optional: true,
     autoValue: function () {
       return this.userId;
     }
+  },
+  creatorName: {
+    type: String,
+    optional: false,
   },
   private: {
     type: Boolean,

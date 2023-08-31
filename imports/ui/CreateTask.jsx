@@ -33,19 +33,24 @@ export const CreateTask = () => {
 
   const handleSubmit = e => {
       e.preventDefault();
-  
-      Meteor.call('tasks.insert', {
-        name: formData.taskName,
-        description: formData.taskDescription,
-        deadline: formData.taskDeadline.toDate(),
-        private: formData.taskPrivate
-      }, (error) => {
-        if (error) {
-          setErrorState(true);
-        } else {
-          setSuccessMsg(true);
-        }
-      });
+
+      const user = Meteor.user();
+
+      if (user) {
+        Meteor.call('tasks.insert', {
+          name: formData.taskName,
+          description: formData.taskDescription,
+          deadline: formData.taskDeadline.toDate(),
+          private: formData.taskPrivate,
+          creatorName: user.profile.name,
+        }, (error) => {
+          if (error) {
+            setErrorState(true);
+          } else {
+            setSuccessMsg(true);
+          }
+        });
+      }
   };
 
   return (

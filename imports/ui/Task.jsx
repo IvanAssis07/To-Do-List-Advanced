@@ -19,7 +19,7 @@ import { MessageModal } from "./MessageModal";
 export const Task = ({ task }) => {
   const [deleteConfirmationMsg, setDeleteConfirmationMsg] = useState(false);
 
-  const deleteTask = ({ _id }) => Meteor.call('tasks.remove', _id, task.userId);
+  const deleteTask = ({ _id }) => Meteor.call('tasks.remove', _id, task.creatorId);
 
   return (
     <>
@@ -31,7 +31,7 @@ export const Task = ({ task }) => {
             </Avatar>
           </ListItemAvatar>
         </ListItemIcon>
-        <ListItemText primary={task.name} secondary={task._id} />
+        <ListItemText primary={task.name} secondary={task.creatorName} />
         {task.private && 
           <LockPersonIcon 
             sx={{
@@ -50,7 +50,7 @@ export const Task = ({ task }) => {
             <EditNoteIcon />
           </Button>
         </RouterLink>
-        {Meteor.userId() === task.userId && (
+        {Meteor.userId() === task.creatorId && (
           <Button
             variant='outlined'
             aria-label='delete'

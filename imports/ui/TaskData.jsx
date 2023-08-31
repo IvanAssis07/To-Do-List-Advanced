@@ -22,6 +22,7 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import LockPersonIcon from "@mui/icons-material/LockPerson";
 import { Navbar } from "./NavBar";
 import { Loading } from './Loading';
+import { MessageModal } from "./MessageModal";
 
 export const TaskData = () => {
   const adapter = new AdapterDayjs();
@@ -29,6 +30,7 @@ export const TaskData = () => {
 
   const [edit, setEdit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [errorState, setErrorState] = useState(false);
 
   const [formData, setFormData] = useState({
     taskName: "",
@@ -37,6 +39,7 @@ export const TaskData = () => {
     taskDeadline: "",
     taskCreator: "",
     taskPrivate: "",
+    taskCreatorId: ''
   });
 
   const [originalData, setOriginalData] = useState({
@@ -46,6 +49,7 @@ export const TaskData = () => {
     taskDeadline: "",
     taskCreator: "",
     taskPrivate: "",
+    taskCreatorId: ''
   });
 
   const validTransitions = {
@@ -85,8 +89,9 @@ export const TaskData = () => {
           taskDescription: task.description,
           taskDeadline: adapter.date(task.deadline),
           taskStatus: task.status,
-          taskCreator: task.userId,
+          taskCreatorName: task.creatorName,
           taskPrivate: task.private,
+          taskCreatorId: task.creatorId
         });
 
         setOriginalData({
@@ -94,8 +99,9 @@ export const TaskData = () => {
           taskDescription: task.description,
           taskDeadline: adapter.date(task.deadline),
           taskStatus: task.status,
-          taskCreator: task.userId,
+          taskCreatorName: task.creatorName,
           taskPrivate: task.private,
+          taskCreatorId: task.creatorId
         });
       }
 
@@ -116,10 +122,12 @@ export const TaskData = () => {
         status: formData.taskStatus,
         userId: originalData.taskCreator,
         private: formData.taskPrivate,
+        creatorId: formData.taskCreatorId
       },
       (error) => {
         if (error) {
-          window.alert(error.message);
+          setIsLoading(false);
+          setErrorState(true);
         } else {
           setEdit(false);
           setIsLoading(false);
@@ -288,6 +296,16 @@ export const TaskData = () => {
             </Box>
           )}
         </Stack>
+        {errorState && (
+          <MessageModal
+            title="Atenção"
+            message="Houve um erro ao editar, tente novamente."
+            hasCancelButton={false}
+            handleConfirmationButton={() => {
+              setErrorState(false);
+            }}
+          />
+        )}
       </Container>
     </>
   );
