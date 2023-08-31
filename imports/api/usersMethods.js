@@ -23,17 +23,11 @@ Meteor.methods({
   'users.update'(userId, userData) {
     try {
       check(userId, String);
-
+      throw new Meteor.Error('Not Authorized');
       if (!this.userId) {
         throw new Meteor.Error('Not Authorized');
       }
-
-      const user = Meteor.users.findOne({_id: this.userId});
-
-      if (!user) {
-        throw new Meteor.Error('Not found.');
-      } 
-
+      
       Meteor.users.update(user._id, {
         $set: {
           emails: [{address: userData.email, verified: false}],

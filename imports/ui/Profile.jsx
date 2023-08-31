@@ -18,10 +18,12 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Navbar } from "./NavBar";
 import { Loading } from "./Loading";
+import { MessageModal } from "./MessageModal";
 
 export const Profile = () => {
   const adapter = new AdapterDayjs();
 
+  const [errorState, setErrorState] = useState(false);
   const [hideButtons, setHideButtons] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -116,7 +118,8 @@ export const Profile = () => {
       },
       (error) => {
         if (error) {
-          window.alert(error.message);
+          setIsLoading(false);
+          setErrorState(true);
         } else {
           setHideButtons(true);
           setIsLoading(false);
@@ -259,18 +262,6 @@ export const Profile = () => {
                   setFormData({ ...formData, email: e.target.value });
                 }}
               />
-              {/* <TextField
-                margin='normal'
-                required
-                fullWidth
-                id='password'
-                label='Password'
-                name='password'
-                autoComplete='off'
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              /> */}
               {!hideButtons && (
                 <Box sx={{ marginTop: 2 }}>
                   <Button variant="contained" onClick={handleCancelButtonClick}>
@@ -287,6 +278,16 @@ export const Profile = () => {
               )}
           </Box>
         </Stack>
+        {errorState && (
+          <MessageModal
+            title="Atenção"
+            message="Houve um erro ao editar, tente novamente."
+            hasCancelButton={false}
+            handleConfirmationButton={() => {
+              setErrorState(false);
+            }}
+          />
+        )}
       </Container>
     </>
   );
