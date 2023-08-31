@@ -17,7 +17,7 @@ import React, { useState } from 'react';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import { RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 export const AppDrawer = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

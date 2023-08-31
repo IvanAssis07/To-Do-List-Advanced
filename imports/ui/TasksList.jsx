@@ -11,7 +11,6 @@ import { Link as RouterLink } from "react-router-dom";
 import { Loading } from './Loading';
 
 export const TasksList = () => {
-  const user = useTracker(() => Meteor.user(), []);
   const [isLoading, setIsLoading] = useState(true);
 
   const { tasks } = useTracker(() => {
@@ -41,43 +40,37 @@ export const TasksList = () => {
 
   return (
     <>
-      {user ? (
-        <>
-          <Navbar />
-          <Container>
-            <Stack
-              direction="column"
-              sx={{
-                display: "flex",
-                minHeight: "100vh",
-                textAlign: "center",
-              }}
-            >
-              <Box>
-                <RouterLink to="/CreateTask">
-                  <Button variant="contained" startIcon={<AddIcon />}>
-                    Create Task
-                  </Button>
-                </RouterLink>
-              </Box>
+      <Navbar />
+      <Container>
+        <Stack
+          direction="column"
+          sx={{
+            display: "flex",
+            minHeight: "100vh",
+            textAlign: "center",
+          }}
+        >
+          <Box>
+            <RouterLink to="/CreateTask">
+              <Button variant="contained" startIcon={<AddIcon />}>
+                Create Task
+              </Button>
+            </RouterLink>
+          </Box>
 
-              {isLoading && (
-                <Loading />
-              )}
+          {isLoading && (
+            <Loading />
+          )}
 
-              <Box marginTop={5}>
-                <List disablePadding>
-                  {tasks.map((task) => (
-                    <Task key={task._id} task={task} />
-                  ))}
-                </List>
-              </Box>
-            </Stack>
-          </Container>
-        </>
-      ) : (
-        <Login />
-      )}
+          <Box marginTop={5}>
+            <List disablePadding>
+              {tasks.map((task) => (
+                <Task key={task._id} task={task} />
+              ))}
+            </List>
+          </Box>
+        </Stack>
+      </Container>
     </>
   );
 };

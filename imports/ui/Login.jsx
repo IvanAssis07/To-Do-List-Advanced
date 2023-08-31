@@ -19,7 +19,7 @@ export const Login = () => {
       if (error) {
         setErrorState(true);
       } else {
-        navigate("/Home");
+        navigate("/Home", {replace: true});
       }
     });
   };
