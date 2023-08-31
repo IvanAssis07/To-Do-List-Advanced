@@ -23,12 +23,12 @@ Meteor.methods({
   'users.update'(userId, userData) {
     try {
       check(userId, String);
-      throw new Meteor.Error('Not Authorized');
+  
       if (!this.userId) {
         throw new Meteor.Error('Not Authorized');
       }
       
-      Meteor.users.update(user._id, {
+      Meteor.users.update(userId, {
         $set: {
           emails: [{address: userData.email, verified: false}],
           profile:{
@@ -41,6 +41,7 @@ Meteor.methods({
         }
       });
     } catch (error) {
+      console.log(error.message);
       throw new Meteor.Error(error.message);
     }
   }
