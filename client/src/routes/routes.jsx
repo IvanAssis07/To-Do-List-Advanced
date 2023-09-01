@@ -47,11 +47,7 @@ Meteor.startup(() => {
           />
           <Route
             path="/CreateAccount"
-            element={
-              <RequireAuth>
-                <CreateAccount />
-              </RequireAuth>
-            }
+            element={<CreateAccount />}
           />
           <Route
             path="/Profile"
