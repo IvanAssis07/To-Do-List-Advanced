@@ -15,7 +15,6 @@ import {
   FormControl,
   TextField,
   InputAdornment,
-  Grid,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { TasksCollection } from "../../../api/domains/tasks/TasksCollection";
@@ -23,13 +22,18 @@ import { Loading } from "../components/Loading";
 import { Task } from "../components/Task";
 import { Navbar } from "../components/NavBar";
 import SearchIcon from "@mui/icons-material/Search";
-import ClearIcon from "@mui/icons-material/Clear";
 
 export const TasksList = () => {
   const [showCompleted, setShowCompleted] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
 
   const handleSwitchChange = () => {
     setShowCompleted(!showCompleted);
+  };
+
+  const handleSearchChange = (e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
   };
 
   const [isLoading, setIsLoading] = useState(true);
@@ -41,7 +45,7 @@ export const TasksList = () => {
       return noTasksAvailable;
     }
 
-    const handler = Meteor.subscribe("tasks", showCompleted);
+    const handler = Meteor.subscribe("tasks", showCompleted, searchInput);
 
     if (!handler.ready()) {
       return { ...noTasksAvailable };
@@ -57,7 +61,8 @@ export const TasksList = () => {
     setIsLoading(false);
 
     return { tasks };
-  }, [showCompleted]);
+  }, [showCompleted, searchInput]);
+
 
   return (
     <>
@@ -77,6 +82,30 @@ export const TasksList = () => {
                 Create Task
               </Button>
             </RouterLink>
+          </Box>
+
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: 2
+            }}
+          >
+            <FormControl>
+              <TextField
+                size="small"
+                variant="outlined"
+                label='Search task by name'
+                onChange={handleSearchChange}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment>
+                      <SearchIcon />
+                    </InputAdornment>
+                  ),
+                }}
+              />
+          </FormControl>
           </Box>
 
           <Box

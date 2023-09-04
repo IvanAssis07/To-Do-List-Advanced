@@ -2,27 +2,57 @@ import { Meteor } from "meteor/meteor";
 import { check } from "meteor/check";
 import { TasksCollection } from "./TasksCollection";
 
-Meteor.publish("tasks", function publishTasks(showCompleted) {
+Meteor.publish("tasks", function publishTasks(showCompleted, searchInput) {
   if (!this.userId) {
     throw new Meteor.Error("Not Authorized");
   }
 
-  if (showCompleted) {
-    return TasksCollection.find({
-      $or: [{ private: false }, { private: true, creatorId: this.userId }],
-    });
+  if(searchInput === '' || searchInput === undefined) {
+    if (showCompleted) {
+      return TasksCollection.find({
+        $or: [{ private: false }, { private: true, creatorId: this.userId }],
+      });
+    } else {
+      return TasksCollection.find({
+        $and: [
+          {
+            $or: [
+              { private: false }, 
+              { private: true, creatorId: this.userId }
+            ],
+          },
+          { status: { $ne: "Completed" } }, 
+        ],
+      });
+    }
   } else {
-    return TasksCollection.find({
-      $and: [
-        {
+    const searchPattern = new RegExp(searchInput, "i");
+
+    if (showCompleted) {
+      return TasksCollection.find({
+        $and: [{
           $or: [
             { private: false }, 
             { private: true, creatorId: this.userId }
           ],
         },
-        { status: { $ne: "Completed" } }, 
-      ],
-    });
+        { name: { $regex: searchPattern } },
+        ]
+      });
+    } else {
+      return TasksCollection.find({
+        $and: [
+          {
+            $or: [
+              { private: false }, 
+              { private: true, creatorId: this.userId }
+            ],
+          },
+          { status: { $ne: "Completed" } }, 
+          { name: { $regex: searchPattern } },
+        ],
+      });
+    }
   }
 });
 
