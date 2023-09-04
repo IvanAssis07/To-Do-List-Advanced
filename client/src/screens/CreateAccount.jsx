@@ -84,6 +84,12 @@ export const CreateAccount = () => {
     }
   };
 
+  if (isLoading) {
+    return (
+      <Loading />
+    )
+  }
+
   return (
     <Box
       sx={{
@@ -95,9 +101,6 @@ export const CreateAccount = () => {
         fontWeight: "bold",
       }}
     >
-      {isLoading && 
-        <Loading />
-      }
       <Paper
         elevation={24}
         sx={{

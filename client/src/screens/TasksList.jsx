@@ -25,7 +25,7 @@ import SearchIcon from "@mui/icons-material/Search";
 
 export const TasksList = () => {
   const [showCompleted, setShowCompleted] = useState(false);
-  const [searchInput, setSearchInput] = useState('');
+  const [searchInput, setSearchInput] = useState("");
 
   const handleSwitchChange = () => {
     setShowCompleted(!showCompleted);
@@ -63,7 +63,6 @@ export const TasksList = () => {
     return { tasks };
   }, [showCompleted, searchInput]);
 
-
   return (
     <>
       <Navbar />
@@ -86,16 +85,16 @@ export const TasksList = () => {
 
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: 2
+              display: "flex",
+              justifyContent: "center",
+              marginTop: 2,
             }}
           >
             <FormControl>
               <TextField
                 size="small"
                 variant="outlined"
-                label='Search task by name'
+                label="Search task by name"
                 onChange={handleSearchChange}
                 InputProps={{
                   endAdornment: (
@@ -105,7 +104,7 @@ export const TasksList = () => {
                   ),
                 }}
               />
-          </FormControl>
+            </FormControl>
           </Box>
 
           <Box
@@ -131,7 +130,7 @@ export const TasksList = () => {
 
           {isLoading && <Loading />}
 
-          <Box marginTop={5}>
+          <Box marginTop={2}>
             <List disablePadding>
               {tasks.map((task) => (
                 <Task key={task._id} task={task} />
