@@ -2,14 +2,36 @@ import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useTracker } from "meteor/react-meteor-data";
 import { Meteor } from "meteor/meteor";
-import { List, Button, Stack, Box, Container } from "@mui/material";
+import { ReactiveVar } from "meteor/reactive-var";
+import {
+  List,
+  Button,
+  Stack,
+  Box,
+  Container,
+  Switch,
+  FormControlLabel,
+  FormGroup,
+  FormControl,
+  TextField,
+  InputAdornment,
+  Grid,
+} from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { TasksCollection } from "../../../api/domains/tasks/TasksCollection";
-import { Loading } from '../components/Loading';
+import { Loading } from "../components/Loading";
 import { Task } from "../components/Task";
 import { Navbar } from "../components/NavBar";
+import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 
 export const TasksList = () => {
+  const [showCompleted, setShowCompleted] = useState(false);
+
+  const handleSwitchChange = () => {
+    setShowCompleted(!showCompleted);
+  };
+
   const [isLoading, setIsLoading] = useState(true);
 
   const { tasks } = useTracker(() => {
@@ -19,7 +41,7 @@ export const TasksList = () => {
       return noTasksAvailable;
     }
 
-    const handler = Meteor.subscribe("tasks");
+    const handler = Meteor.subscribe("tasks", showCompleted);
 
     if (!handler.ready()) {
       return { ...noTasksAvailable };
@@ -35,7 +57,7 @@ export const TasksList = () => {
     setIsLoading(false);
 
     return { tasks };
-  }, []);
+  }, [showCompleted]);
 
   return (
     <>
@@ -57,9 +79,28 @@ export const TasksList = () => {
             </RouterLink>
           </Box>
 
-          {isLoading && (
-            <Loading />
-          )}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 2,
+            }}
+          >
+            <FormGroup>
+              <FormControlLabel
+                control={<Switch />}
+                onChange={() => handleSwitchChange()}
+                label={
+                  showCompleted
+                    ? "Showing completed tasks"
+                    : "Click to also show completed tasks"
+                }
+              />
+            </FormGroup>
+          </Box>
+
+          {isLoading && <Loading />}
 
           <Box marginTop={5}>
             <List disablePadding>

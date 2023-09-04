@@ -15,6 +15,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
 import { MessageModal } from "./MessageModal";
+import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 export const Task = ({ task }) => {
   const [deleteConfirmationMsg, setDeleteConfirmationMsg] = useState(false);
@@ -32,6 +33,14 @@ export const Task = ({ task }) => {
           </ListItemAvatar>
         </ListItemIcon>
         <ListItemText primary={task.name} secondary={task.creatorName} />
+        {(task.status === 'Completed') &&
+          <AssignmentTurnedInIcon
+            sx={{
+              color: '#1976d2', 
+              marginRight: '2%'
+            }}
+          />
+        }
         {task.private && 
           <LockPersonIcon 
             sx={{
@@ -67,7 +76,6 @@ export const Task = ({ task }) => {
         <MessageModal
           title="Atenção"
           message='Tem certeza que quer excluir esta tarefa?'
-          isOpen={deleteConfirmationMsg}
           hasCancelButton={true}
           handleConfirmationButton={() => {
             deleteTask(task);

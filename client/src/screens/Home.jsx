@@ -47,7 +47,7 @@ export const Home = () => {
       return;
     }
 
-    const handler = Meteor.subscribe("tasks");
+    const handler = Meteor.subscribe("tasks", true);
 
     if (handler.ready()) {
       const tasks = TasksCollection.find().fetch();
