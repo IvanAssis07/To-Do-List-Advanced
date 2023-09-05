@@ -6,6 +6,6 @@ There is also a profile page where the user can see and change his data.
 
 To use this system you just have to:
 - Download this repository;
-- Run _meteor install_;
+- Run _meteor npm install_;
 - Run _meteor run_;
 - Open it in your browser and create a new account; 
