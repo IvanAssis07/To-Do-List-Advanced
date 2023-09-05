@@ -1,4 +1,4 @@
-# To-Do-List-Advanced
+# To Do List Advanced
 
 This is a system for users manage their tasks. We have some features, such as make your task private so that no other user can view it. Besides this a user can create, change and delete any of his tasks. He can also view the tasks that are not private from ohter users.
 
