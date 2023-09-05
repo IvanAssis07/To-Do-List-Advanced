@@ -9,6 +9,7 @@ import {
   Avatar,
   Divider,
   Button,
+  IconButton
 } from '@mui/material';
 import TaskIcon from '@mui/icons-material/Task';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -35,6 +36,7 @@ export const Task = ({ task }) => {
         <ListItemText primary={task.name} secondary={task.creatorName} />
         {(task.status === 'Completed') &&
           <AssignmentTurnedInIcon
+            fontSize='small'
             sx={{
               color: '#1976d2', 
               marginRight: '2%'
@@ -43,6 +45,7 @@ export const Task = ({ task }) => {
         }
         {task.private && 
           <LockPersonIcon 
+            fontSize='small'
             sx={{
               color: '#1976d2', 
               marginRight: '2%'
@@ -50,25 +53,39 @@ export const Task = ({ task }) => {
           />
         }
         <RouterLink to={`/TaskData/${task._id}`}>
-          <Button
-            variant='outlined'
+          <IconButton
+          variant='contained'
             aria-label='edit'
+            size='small'
+            color="primary"
             edge='end'
-            sx={{ borderRadius: 8 }}
+            sx={{
+              '&:hover, &:active': {
+                backgroundColor: 'primary.main',
+                color: '#fff'
+              },
+            }}
           >
             <EditNoteIcon />
-          </Button>
+          </IconButton>
         </RouterLink>
         {Meteor.userId() === task.creatorId && (
-          <Button
-            variant='outlined'
+          <IconButton
+            color="primary"
+            size='small'
             aria-label='delete'
             edge='end'
-            sx={{ marginLeft: '2%', borderRadius: 8 }}
+            sx={{ 
+              marginLeft: '%',
+              '&:hover, &:active': {
+                backgroundColor: 'primary.main',
+                color: '#fff'
+              },
+            }}
             onClick={() => {setDeleteConfirmationMsg(true)}}
           >
             <DeleteIcon />
-          </Button>
+          </IconButton>
         )}
       </ListItem>
       <Divider variant='middle' />
