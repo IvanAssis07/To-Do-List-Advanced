@@ -1,5 +1,5 @@
-import React from "react";
-import { Box, Button } from "@mui/material";
+import React from 'react';
+import { Box, Button } from '@mui/material';
 
 export const EditButtons = ({
   edit,
@@ -12,7 +12,7 @@ export const EditButtons = ({
       {!edit ? (
         <Button
           sx={{ marginTop: 2 }}
-          variant="contained"
+          variant='contained'
           onClick={() => handleEditButtonClick()}
         >
           Edit
@@ -21,14 +21,14 @@ export const EditButtons = ({
         <>
           <Box sx={{ marginTop: 2 }}>
             <Button
-              variant="contained"
+              variant='contained'
               onClick={() => handleCancelButtonClick()}
             >
               Cancel
             </Button>
             <Button
               sx={{ marginLeft: 4 }}
-              variant="contained"
+              variant='contained'
               onClick={() => handleSaveButtonClick()}
             >
               Save

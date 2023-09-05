@@ -137,7 +137,7 @@ export const CreateTask = () => {
       </Stack>
       {errorState && 
         <MessageModal
-          title="Atenção"
+          title='Atenção'
           message='Houve um erro na criação da tarefa, tente novamente.'
           hasCancelButton={false}
           handleConfirmationButton={() => {
@@ -147,11 +147,11 @@ export const CreateTask = () => {
       }
       {successMsg &&
         <MessageModal
-          title="Parabéns"
+          title='Parabéns'
           message='Tarefa criada com sucesso.'
           hasCancelButton={false}
           handleConfirmationButton={() => {
-            navigate("/TasksList");
+            navigate('/TasksList');
           }}          
         />
       }

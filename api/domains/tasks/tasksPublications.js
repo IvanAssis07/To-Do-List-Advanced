@@ -1,10 +1,10 @@
-import { Meteor } from "meteor/meteor";
-import { check } from "meteor/check";
-import { TasksCollection } from "./TasksCollection";
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+import { TasksCollection } from './TasksCollection';
 
-Meteor.publish("tasks", function publishTasks(showCompleted, searchInput) {
+Meteor.publish('tasks', function publishTasks(showCompleted, searchInput) {
   if (!this.userId) {
-    throw new Meteor.Error("Not Authorized");
+    throw new Meteor.Error('Not Authorized');
   }
 
   if(searchInput === '' || searchInput === undefined) {
@@ -21,12 +21,12 @@ Meteor.publish("tasks", function publishTasks(showCompleted, searchInput) {
               { private: true, creatorId: this.userId }
             ],
           },
-          { status: { $ne: "Completed" } }, 
+          { status: { $ne: 'Completed' } }, 
         ],
       });
     }
   } else {
-    const searchPattern = new RegExp(searchInput, "i");
+    const searchPattern = new RegExp(searchInput, 'i');
 
     if (showCompleted) {
       return TasksCollection.find({
@@ -48,7 +48,7 @@ Meteor.publish("tasks", function publishTasks(showCompleted, searchInput) {
               { private: true, creatorId: this.userId }
             ],
           },
-          { status: { $ne: "Completed" } }, 
+          { status: { $ne: 'Completed' } }, 
           { name: { $regex: searchPattern } },
         ],
       });
@@ -56,11 +56,11 @@ Meteor.publish("tasks", function publishTasks(showCompleted, searchInput) {
   }
 });
 
-Meteor.publish("taskData", function (taskId) {
+Meteor.publish('taskData', function (taskId) {
   check(taskId, String);
 
   if (!this.userId) {
-    throw new Meteor.Error("Not Authorized");
+    throw new Meteor.Error('Not Authorized');
   }
 
   return TasksCollection.find({ _id: taskId });

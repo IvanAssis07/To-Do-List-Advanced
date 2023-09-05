@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Button,
   Dialog,
@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@mui/material";
+} from '@mui/material';
 
 export const MessageModal = ({
   title,
@@ -20,22 +20,22 @@ export const MessageModal = ({
       <>
         <Dialog
           open={true}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          sx={{ textAlign: "center" }}
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
+          sx={{ textAlign: 'center' }}
         >
-          <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+          <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
           <DialogContent sx={{ paddingBottom: 1 }}>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText id='alert-dialog-description'>
               {message}
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ paddingBottom: 2 }}>
             <Button
               sx={{
-                margin: "0 auto",
+                margin: '0 auto',
               }}
-              variant="outlined"
+              variant='outlined'
               onClick={() => handleConfirmationButton()}
             >
               Ok
@@ -49,20 +49,20 @@ export const MessageModal = ({
       <>
         <Dialog
           open={true}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-          sx={{ textAlign: "center" }}
+          aria-labelledby='alert-dialog-title'
+          aria-describedby='alert-dialog-description'
+          sx={{ textAlign: 'center' }}
         >
-          <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+          <DialogTitle id='alert-dialog-title'>{title}</DialogTitle>
           <DialogContent sx={{ paddingBottom: 1 }}>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText id='alert-dialog-description'>
               {message}
             </DialogContentText>
           </DialogContent>
-          <DialogActions sx={{ paddingBottom: 2, margin: "0 auto" }}>
+          <DialogActions sx={{ paddingBottom: 2, margin: '0 auto' }}>
             <Button onClick={() => handleCancelButton()}>Cancel</Button>
             <Button
-              variant="outlined"
+              variant='outlined'
               onClick={() => handleConfirmationButton()}
             >
               Ok

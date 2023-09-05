@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { Meteor } from "meteor/meteor";
-import { TasksCollection } from "../../../api/domains/tasks/TasksCollection";
-import { useTracker } from "meteor/react-meteor-data";
+import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Meteor } from 'meteor/meteor';
+import { TasksCollection } from '../../../api/domains/tasks/TasksCollection';
+import { useTracker } from 'meteor/react-meteor-data';
 import {
   Stack,
   TextField,
@@ -14,16 +14,17 @@ import {
   FormControlLabel,
   Checkbox,
   Container,
-} from "@mui/material";
-import Select from "@mui/material/Select";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
-import LockPersonIcon from "@mui/icons-material/LockPerson";
-import { Navbar } from "../components/NavBar";
+  Grid
+} from '@mui/material';
+import Select from '@mui/material/Select';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockPersonIcon from '@mui/icons-material/LockPerson';
+import { Navbar } from '../components/NavBar';
 import { Loading } from '../components/Loading';
-import { MessageModal } from "../components/MessageModal";
-import { EditButtons } from "../components/EditButtons";
+import { MessageModal } from '../components/MessageModal';
+import { EditButtons } from '../components/EditButtons';
 
 export const TaskData = () => {
   const adapter = new AdapterDayjs();
@@ -35,29 +36,29 @@ export const TaskData = () => {
   const [errorState, setErrorState] = useState(false);
 
   const [formData, setFormData] = useState({
-    taskName: "",
-    taskDescription: "",
-    taskStatus: "",
-    taskDeadline: "",
-    taskCreator: "",
-    taskPrivate: "",
+    taskName: '',
+    taskDescription: '',
+    taskStatus: '',
+    taskDeadline: '',
+    taskCreator: '',
+    taskPrivate: '',
     taskCreatorId: ''
   });
 
   const [originalData, setOriginalData] = useState({
-    taskName: "",
-    taskDescription: "",
-    taskStatus: "",
-    taskDeadline: "",
-    taskCreator: "",
-    taskPrivate: "",
+    taskName: '',
+    taskDescription: '',
+    taskStatus: '',
+    taskDeadline: '',
+    taskCreator: '',
+    taskPrivate: '',
     taskCreatorId: ''
   });
 
   const validTransitions = {
-    "Registered": ["Registered", "In progress"],
-    "In progress": ["In progress", "Completed", "Registered"],
-    "Completed": ["Completed", "Registered"],
+    'Registered': ['Registered', 'In progress'],
+    'In progress': ['In progress', 'Completed', 'Registered'],
+    'Completed': ['Completed', 'Registered'],
   };
 
   const availableStatusOptions = validTransitions[formData.taskStatus];
@@ -80,7 +81,7 @@ export const TaskData = () => {
       return;
     }
 
-    const handler = Meteor.subscribe("taskData", taskId);
+    const handler = Meteor.subscribe('taskData', taskId);
 
     if (handler.ready()) {
       const task = TasksCollection.findOne({ _id: taskId });
@@ -119,7 +120,7 @@ export const TaskData = () => {
     setIsLoading(true);
 
     Meteor.call(
-      "tasks.update",
+      'tasks.update',
       taskId,
       {
         name: formData.taskName,
@@ -147,40 +148,40 @@ export const TaskData = () => {
       <Navbar />
       <Container>
         <Stack
-          direction="column"
+          direction='column'
           sx={{
-            display: "flex",
-            marginTop: "5%",
-            minHeight: "100vh",
-            textAlign: "center",
+            display: 'flex',
+            marginTop: '5%',
+            minHeight: '100vh',
+            textAlign: 'center',
             marginX: '10%'
           }}
         >
-          <Typography variant="h3">Edit task</Typography>
+          <Typography variant='h3'>Edit task</Typography>
           {isLoading ? (
             <Loading />
           ) : (
-            <Box component="form" autoComplete="off">
+            <Box component='form' autoComplete='off'>
               <TextField
                 autoFocus
-                margin="normal"
+                margin='normal'
                 fullWidth
-                id="name"
+                id='name'
                 defaultValue={formData.taskName}
-                label="Name"
-                name="name"
+                label='Name'
+                name='name'
                 disabled={!edit}
                 onChange={(e) =>
                   setFormData({ ...formData, taskName: e.target.value })
                 }
               />
               <TextField
-                margin="normal"
+                margin='normal'
                 fullWidth
-                id="description"
+                id='description'
                 defaultValue={formData.taskDescription}
-                label="Description"
-                name="taskDescription"
+                label='Description'
+                name='taskDescription'
                 disabled={!edit}
                 onChange={(e) =>
                   setFormData({
@@ -190,88 +191,96 @@ export const TaskData = () => {
                 }
               />
               <TextField
-                margin="normal"
+                margin='normal'
                 fullWidth
-                id="creator"
+                id='creator'
                 defaultValue={formData.taskCreator}
-                label="Creator"
-                name="creator"
+                label='Creator'
+                name='creator'
                 disabled={!edit}
               />
               <DatePicker
                 minDate={adapter.date()}
                 fullWidth
                 sx={{
-                  width: "100%",
+                  width: '100%',
                   marginBottom: 2,
                   marginTop: 2,
                 }}
                 disabled={!edit}
-                label="Deadline"
-                format="DD/MM/YYYY"
+                label='Deadline'
+                format='DD/MM/YYYY'
                 value={adapter.date(formData.taskDeadline)}
                 onChange={(deadline) =>
                   setFormData({ ...formData, taskDeadline: deadline })
                 }
               />
-              <Box>
-                <Select
-                  id="status"
-                  label="status"
-                  onChange={(e) => handleStatusTransitions(e.target.value)}
-                  disabled={!edit}
-                  value={formData.taskStatus}
-                  sx={{
-                    width: "70%",
-                    marginRight: "5%",
-                  }}
-                >
-                  {availableStatusOptions.map((status, index) => (
-                    <MenuItem key={index} value={status} disabled={index === 0}>
-                      {status}
-                    </MenuItem>
-                  ))}
-                </Select>
-                <Button
-                  variant="outlined"
-                  disabled={!edit}
-                  sx={{ width: "25%", height: "100%" }}
-                  onClick={() =>
-                    handleStatusTransitions(originalData.taskStatus)
+              <Grid
+                container
+                columnSpacing={1}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
+              >
+                <Grid item >
+                  <Select
+                    id='status'
+                    label='status'
+                    onChange={(e) => handleStatusTransitions(e.target.value)}
+                    disabled={!edit}
+                    value={formData.taskStatus}
+                  >
+                    {availableStatusOptions.map((status, index) => (
+                      <MenuItem key={index} value={status} disabled={index === 0}>
+                        {status}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </Grid>
+                <Grid item>
+                  <Button
+                    variant='outlined'
+                    disabled={!edit}
+                    onClick={() =>
+                      handleStatusTransitions(originalData.taskStatus)
+                    }
+                  >
+                    Reset Status
+                  </Button>
+                </Grid>
+              </Grid>
+              
+              <FormGroup
+                sx={{
+                  alignItems: 'center',
+                  marginTop: 2,
+                }}
+              >
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      disabled={!edit}
+                      icon={<LockOpenIcon />}
+                      checkedIcon={<LockPersonIcon />}
+                      checked={formData.taskPrivate}
+                      onChange={() =>
+                        setFormData({
+                          ...formData,
+                          taskPrivate: !formData.taskPrivate,
+                        })
+                      }
+                    />
                   }
-                >
-                  Reset Status
-                </Button>
-
-                <FormGroup
-                  sx={{
-                    alignItems: "center",
-                    marginTop: 2,
-                  }}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        disabled={!edit}
-                        icon={<LockOpenIcon />}
-                        checkedIcon={<LockPersonIcon />}
-                        checked={formData.taskPrivate}
-                        onChange={() =>
-                          setFormData({
-                            ...formData,
-                            taskPrivate: !formData.taskPrivate,
-                          })
-                        }
-                      />
-                    }
-                    label={
-                      formData.taskPrivate
-                        ? "Make your task public."
-                        : "Make your task private."
-                    }
-                  />
-                </FormGroup>
-              </Box>
+                  label={
+                    formData.taskPrivate
+                      ? 'Make your task public.'
+                      : 'Make your task private.'
+                  }
+                />
+              </FormGroup>
+              
               {allowUserEdit && 
                 <EditButtons
                   edit={edit}
@@ -285,8 +294,8 @@ export const TaskData = () => {
         </Stack>
         {errorState && (
           <MessageModal
-            title="Atenção"
-            message="Houve um erro ao editar, tente novamente."
+            title='Atenção'
+            message='Houve um erro ao editar, tente novamente.'
             hasCancelButton={false}
             handleConfirmationButton={() => {
               setErrorState(false);

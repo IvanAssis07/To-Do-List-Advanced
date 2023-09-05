@@ -14,7 +14,7 @@ import TaskIcon from '@mui/icons-material/Task';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import LockPersonIcon from '@mui/icons-material/LockPerson';
-import { MessageModal } from "./MessageModal";
+import { MessageModal } from './MessageModal';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 
 export const Task = ({ task }) => {
@@ -74,7 +74,7 @@ export const Task = ({ task }) => {
       <Divider variant='middle' />
       {deleteConfirmationMsg && 
         <MessageModal
-          title="Atenção"
+          title='Atenção'
           message='Tem certeza que quer excluir esta tarefa?'
           hasCancelButton={true}
           handleConfirmationButton={() => {

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Link as RouterLink } from "react-router-dom";
-import { useTracker } from "meteor/react-meteor-data";
-import { Meteor } from "meteor/meteor";
+import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
+import { useTracker } from 'meteor/react-meteor-data';
+import { Meteor } from 'meteor/meteor';
 import {
   List,
   Button,
@@ -15,17 +15,17 @@ import {
   TextField,
   InputAdornment,
   Grid,
-} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import { TasksCollection } from "../../../api/domains/tasks/TasksCollection";
-import { Loading } from "../components/Loading";
-import { Task } from "../components/Task";
-import { Navbar } from "../components/NavBar";
-import SearchIcon from "@mui/icons-material/Search";
+} from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import { TasksCollection } from '../../../api/domains/tasks/TasksCollection';
+import { Loading } from '../components/Loading';
+import { Task } from '../components/Task';
+import { Navbar } from '../components/NavBar';
+import SearchIcon from '@mui/icons-material/Search';
 
 export const TasksList = () => {
   const [showCompleted, setShowCompleted] = useState(false);
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
 
   const handleSwitchChange = () => {
     setShowCompleted(!showCompleted);
@@ -45,7 +45,7 @@ export const TasksList = () => {
       return noTasksAvailable;
     }
 
-    const handler = Meteor.subscribe("tasks", showCompleted, searchInput);
+    const handler = Meteor.subscribe('tasks', showCompleted, searchInput);
 
     if (!handler.ready()) {
       return { ...noTasksAvailable };
@@ -68,16 +68,16 @@ export const TasksList = () => {
       <Navbar />
       <Container>
         <Stack
-          direction="column"
+          direction='column'
           sx={{
-            display: "flex",
-            minHeight: "100vh",
-            textAlign: "center",
+            display: 'flex',
+            minHeight: '100vh',
+            textAlign: 'center',
           }}
         >
           <Box>
-            <RouterLink to="/CreateTask">
-              <Button variant="contained" startIcon={<AddIcon />}>
+            <RouterLink to='/CreateTask'>
+              <Button variant='contained' startIcon={<AddIcon />}>
                 Create Task
               </Button>
             </RouterLink>
@@ -95,13 +95,13 @@ export const TasksList = () => {
             <Grid item >
               <FormControl>
                 <TextField
-                  size="small"
-                  variant="outlined"
-                  label="Search task by name"
+                  size='small'
+                  variant='outlined'
+                  label='Search task by name'
                   onChange={handleSearchChange}
                   InputProps={{
                     endAdornment: (
-                      <InputAdornment position="start" >
+                      <InputAdornment position='start' >
                         <SearchIcon />
                       </InputAdornment>
                     ),

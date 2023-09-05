@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Meteor } from "meteor/meteor";
-import { useTracker } from "meteor/react-meteor-data";
+import React, { useState } from 'react';
+import { Meteor } from 'meteor/meteor';
+import { useTracker } from 'meteor/react-meteor-data';
 import { Link as RouterLink } from 'react-router-dom'; 
 import {
   Button,
@@ -9,19 +9,19 @@ import {
   Grid,
   Typography,
   Container,
-} from "@mui/material";
-import TaskAltIcon from "@mui/icons-material/TaskAlt";
-import AutorenewIcon from "@mui/icons-material/Autorenew";
-import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import TaskOutlinedIcon from "@mui/icons-material/TaskOutlined";
-import { Navbar } from "../components/NavBar";
-import { TasksCollection } from "../../../api/domains/tasks/TasksCollection";
-import { Loading } from "../components/Loading";
+} from '@mui/material';
+import TaskAltIcon from '@mui/icons-material/TaskAlt';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import TaskOutlinedIcon from '@mui/icons-material/TaskOutlined';
+import { Navbar } from '../components/NavBar';
+import { TasksCollection } from '../../../api/domains/tasks/TasksCollection';
+import { Loading } from '../components/Loading';
 
 export const Home = () => {
-  const [tasksTotal, setTasksTotal] = useState("");
-  const [tasksInProgress, setTasksInProgress] = useState("");
-  const [tasksCompleted, setTasksCompleted] = useState("");
+  const [tasksTotal, setTasksTotal] = useState('');
+  const [tasksInProgress, setTasksInProgress] = useState('');
+  const [tasksCompleted, setTasksCompleted] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
   const tasksCounts = {
@@ -34,9 +34,9 @@ export const Home = () => {
     tasks.forEach((task) => {
       tasksCounts.total += 1;
 
-      if (task.status === "In progress") {
+      if (task.status === 'In progress') {
         tasksCounts.inProgress += 1;
-      } else if (task.status === "Completed") {
+      } else if (task.status === 'Completed') {
         tasksCounts.completed += 1;
       }
     });
@@ -47,7 +47,7 @@ export const Home = () => {
       return;
     }
 
-    const handler = Meteor.subscribe("tasks", true);
+    const handler = Meteor.subscribe('tasks', true);
 
     if (handler.ready()) {
       const tasks = TasksCollection.find().fetch();
@@ -71,16 +71,16 @@ export const Home = () => {
         <Container>
           <Box
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: "5%",
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginBottom: '5%',
             }}
           >
             <Button
-              variant="contained"
+              variant='contained'
               startIcon={<FormatListBulletedIcon />}
-              size="large"
+              size='large'
               component={RouterLink}
               to='/TasksList'
             >
@@ -91,26 +91,26 @@ export const Home = () => {
             container
             spacing={4}
             sx={{
-              textAlign: "center",
-              justifyContent: "center",
+              textAlign: 'center',
+              justifyContent: 'center',
             }}
           >
             <Grid item xs={12} sm={6} md={4}>
               <Paper
                 elevation={12}
                 sx={{
-                  maxWidth: "350px",
+                  maxWidth: '350px',
                   paddingY: 2,
-                  backgroundColor: "#1976d2",
+                  backgroundColor: '#1976d2',
                   color: '#fff'
                 }}
               >
                 <TaskOutlinedIcon sx={{ fontSize: 70}} />
                 <Box>
-                  <Typography variant="h3">{tasksTotal}</Typography>
+                  <Typography variant='h3'>{tasksTotal}</Typography>
                 </Box>
                 <Box>
-                  <Typography variant="h6">Registered tasks</Typography>
+                  <Typography variant='h6'>Registered tasks</Typography>
                 </Box>
               </Paper>
             </Grid>
@@ -118,18 +118,18 @@ export const Home = () => {
               <Paper
                 elevation={12}
                 sx={{
-                  maxWidth: "350px",
+                  maxWidth: '350px',
                   paddingY: 2,
-                  backgroundColor: "#1976d2",
+                  backgroundColor: '#1976d2',
                   color: '#fff'
                 }}
               >
                 <AutorenewIcon sx={{ fontSize: 70 }} />
                 <Box>
-                  <Typography variant="h3">{tasksInProgress}</Typography>
+                  <Typography variant='h3'>{tasksInProgress}</Typography>
                 </Box>
                 <Box>
-                  <Typography variant="h6">Tasks in progress</Typography>
+                  <Typography variant='h6'>Tasks in progress</Typography>
                 </Box>
               </Paper>
             </Grid>
@@ -137,18 +137,18 @@ export const Home = () => {
               <Paper
                 elevation={12}
                 sx={{
-                  maxWidth: "350px",
+                  maxWidth: '350px',
                   paddingY: 2,
-                  backgroundColor: "#1976d2",
+                  backgroundColor: '#1976d2',
                   color: '#fff'
                 }}
               >
                 <TaskAltIcon sx={{ fontSize: 70 }} />
                 <Box>
-                  <Typography variant="h3">{tasksCompleted}</Typography>
+                  <Typography variant='h3'>{tasksCompleted}</Typography>
                 </Box>
                 <Box>
-                  <Typography variant="h6">Completed tasks</Typography>
+                  <Typography variant='h6'>Completed tasks</Typography>
                 </Box>
               </Paper>
             </Grid>

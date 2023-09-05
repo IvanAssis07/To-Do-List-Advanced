@@ -1,28 +1,28 @@
-import { Meteor } from "meteor/meteor";
-import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { createRoot } from "react-dom/client";
-import { TasksList } from "../screens/TasksList";
-import { TaskData } from "../screens/TaskData";
-import { CreateTask } from "../screens/CreateTask";
-import { CreateAccount } from "../screens/CreateAccount";
-import { Profile } from "../screens/Profile";
-import { Home } from "../screens/Home";
-import { Login } from "../screens/Login";
-import { RequireAuth } from "../components/RequireAuth";
+import { Meteor } from 'meteor/meteor';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { createRoot } from 'react-dom/client';
+import { TasksList } from '../screens/TasksList';
+import { TaskData } from '../screens/TaskData';
+import { CreateTask } from '../screens/CreateTask';
+import { CreateAccount } from '../screens/CreateAccount';
+import { Profile } from '../screens/Profile';
+import { Home } from '../screens/Home';
+import { Login } from '../screens/Login';
+import { RequireAuth } from '../components/RequireAuth';
 
 Meteor.startup(() => {
-  const root = createRoot(document.getElementById("react-target"));
+  const root = createRoot(document.getElementById('react-target'));
 
   root.render(
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route path='/' element={<Login />} />
           <Route
-            path="/TaskData/:taskId"
+            path='/TaskData/:taskId'
             element={
               <RequireAuth>
                 <TaskData />
@@ -30,7 +30,7 @@ Meteor.startup(() => {
             }
           />
           <Route
-            path="/TasksList"
+            path='/TasksList'
             element={
               <RequireAuth>
                 <TasksList />
@@ -38,7 +38,7 @@ Meteor.startup(() => {
             }
           />
           <Route
-            path="/CreateTask"
+            path='/CreateTask'
             element={
               <RequireAuth>
                 <CreateTask />
@@ -46,11 +46,11 @@ Meteor.startup(() => {
             }
           />
           <Route
-            path="/CreateAccount"
+            path='/CreateAccount'
             element={<CreateAccount />}
           />
           <Route
-            path="/Profile"
+            path='/Profile'
             element={
               <RequireAuth>
                 <Profile />
@@ -58,7 +58,7 @@ Meteor.startup(() => {
             }
           />
           <Route
-            path="/Home"
+            path='/Home'
             element={
               <RequireAuth>
                 <Home />

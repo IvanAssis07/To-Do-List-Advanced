@@ -1,9 +1,9 @@
-import { Meteor } from "meteor/meteor";
-import { check } from "meteor/check";
-import { TasksCollection } from "./TasksCollection";
+import { Meteor } from 'meteor/meteor';
+import { check } from 'meteor/check';
+import { TasksCollection } from './TasksCollection';
 
 Meteor.methods({
-  "tasks.insert"(taskData) {
+  'tasks.insert'(taskData) {
     try {
       TasksCollection.insert({
         name: taskData.name,
@@ -13,28 +13,28 @@ Meteor.methods({
         creatorName: taskData.creatorName
       });
     } catch (error) {
-      throw new Meteor.Error(("Validation error:", error.message));
+      throw new Meteor.Error(('Validation error:', error.message));
     }
   },
-  "tasks.remove"(taskId, taskCreatorId) {
+  'tasks.remove'(taskId, taskCreatorId) {
     try {
       check(taskId, String);
 
       if (taskCreatorId !== this.userId) {
-        throw new Meteor.Error("Not authorized.");
+        throw new Meteor.Error('Not authorized.');
       }
 
       TasksCollection.remove(taskId);
     } catch (error) {
-      throw new Meteor.Error(("Error:", error.message));
+      throw new Meteor.Error(('Error:', error.message));
     }
   },
-  "tasks.update"(taskId, taskData) {
+  'tasks.update'(taskId, taskData) {
     try {
       check(taskId, String);
 
       if (taskData.creatorId !== this.userId) {
-        throw new Meteor.Error("Not authorized.");
+        throw new Meteor.Error('Not authorized.');
       }
 
       TasksCollection.update(taskId, {
