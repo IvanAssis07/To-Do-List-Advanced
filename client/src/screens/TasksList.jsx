@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { useTracker } from "meteor/react-meteor-data";
 import { Meteor } from "meteor/meteor";
-import { ReactiveVar } from "meteor/reactive-var";
 import {
   List,
   Button,
@@ -15,6 +14,7 @@ import {
   FormControl,
   TextField,
   InputAdornment,
+  Grid,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { TasksCollection } from "../../../api/domains/tasks/TasksCollection";
@@ -82,51 +82,43 @@ export const TasksList = () => {
               </Button>
             </RouterLink>
           </Box>
-
-          <Box
+          
+          <Grid
+            container
+            columnSpacing={2}
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              marginTop: 2,
-            }}
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: 3
+            }}  
           >
-            <FormControl>
-              <TextField
-                size="small"
-                variant="outlined"
-                label="Search task by name"
-                onChange={handleSearchChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment>
-                      <SearchIcon />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </FormControl>
-          </Box>
-
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 2,
-            }}
-          >
-            <FormGroup>
-              <FormControlLabel
-                control={<Switch />}
-                onChange={() => handleSwitchChange()}
-                label={
-                  showCompleted
-                    ? "Showing completed tasks"
-                    : "Click to also show completed tasks"
-                }
-              />
-            </FormGroup>
-          </Box>
+            <Grid item >
+              <FormControl>
+                <TextField
+                  size="small"
+                  variant="outlined"
+                  label="Search task by name"
+                  onChange={handleSearchChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="start" >
+                        <SearchIcon />
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Switch />}
+                  onChange={() => handleSwitchChange()}
+                  label='Show completed tasks.'
+                />
+              </FormGroup>
+            </Grid>
+          </Grid>
 
           {isLoading && <Loading />}
 
