@@ -54,7 +54,7 @@ export const Task = ({ task }) => {
         }
         <RouterLink to={`/TaskData/${task._id}`}>
           <IconButton
-          variant='contained'
+            variant='contained'
             aria-label='edit'
             size='small'
             color="primary"
